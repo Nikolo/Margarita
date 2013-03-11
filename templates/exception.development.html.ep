@@ -1,0 +1,53 @@
+[% h.layout_var( 'meta_title', '500 (Internal Server Error, внутренняя ошибка сервера) :-(') %]
+<style>
+.abus, .andiag, .mlabs, .manon, .elmed, .askd {
+background: url('/img/menu-sprite-bw.png') no-repeat;
+color:#595959 !important;
+}
+
+.logo_and_menu ul li:hover {
+-webkit-box-shadow: inset 0px 0px 60px 10px #c0c0c0;
+box-shadow: inset 0px 0px 60px 10px #c0c0c0;
+}
+
+.abus {
+background-position:33px 10px;
+}
+
+.andiag {
+background-position:-90px 10px;
+}
+
+.mlabs {
+background-position:-198px 10px;
+}
+
+.manon {
+background-position:-290px 10px;
+}
+
+.elmed {
+background-position:-436px 10px;
+}
+
+.askd {
+background-position:-560px 10px;
+}
+</style>
+<div class="logo_and_menu">
+<a href="/"><img src="/img/logo.gif" class="logo_img" alt="АнализМаркет" /></a>
+
+<ul><li><a href="/about/" class="abus">О проекте</a></li><li><a href="/tests/" class="andiag">Анализы</a></li><li><a href="/labs/" class="mlabs">Лаборатории</a></li><li><a href="/privacy/" class="manon">Конфиденциальность</a></li><!--<li><a href="#" class="elmed">Электронная медкарта</a></li><li><a href="#" class="askd">Спросите врача</a></li>--></ul>
+
+</div>
+<div class="c_404">
+<div class="img_404"></div>
+<div class="txt_404">
+<h1>Ошибка <span>четыре ноль четыре</span></h1>
+<p>Страница не найдена. Возможно она была удалена, перемещена или её вообще никогда не существовало.</p>
+<p>Попробуйте воспользоваться поиском:</p>
+
+<form id="mform" method="GET" action="/tests/"><div class="form_search"><div class="f_search_r"><div class="f_search_c morda_input"><input id="main_s" autocomplete="off" name="term" type="text"></div></div></div><input class="input_submit" type="submit" value="Искать"></form>
+</div>
+</div>
+

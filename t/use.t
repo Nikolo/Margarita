@@ -1,0 +1,34 @@
+use strict;
+
+use Test::More tests => 28;
+use utf8;
+use lib '../lib/';
+
+use_ok( "Cache::Memcached::Fast" );
+use_ok( "Carp" );
+use_ok( "Config::JSON" );
+use_ok( "Data::UUID" );
+use_ok( "DateTime" );
+use_ok( "ExtLog" );
+use_ok( "Fcntl" );
+use_ok( "File::Basename" );
+use_ok( "File::Copy" );
+use_ok( "File::Spec::Functions" );
+use_ok( "File::Temp" );
+use_ok( "File::Type" );
+use_ok( "FindBin" );
+use_ok( "IO::Dir" );
+use_ok( "LWP::UserAgent" );
+use_ok( "Mail::CheckUser" );
+use_ok( "MIME::Base64" );
+use_ok( "MIME::Lite" );
+use_ok( "Mojo::Base" );
+use_ok( "Mojolicious::Plugin::TtRenderer" );
+use_ok( "Mojolicious::Plugin::TtRenderer::Engine" );
+use_ok( "PDF::API2" );
+use_ok( "Schema" );
+use_ok( "Sphinx::Search" );
+use_ok( "Storable" );
+use_ok( "Template" );
+use_ok( "Test::Mojo" );
+use_ok( "Test::More" );

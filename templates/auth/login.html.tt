@@ -1,0 +1,21 @@
+[% h.layout_var( 'meta_title', 'АнализМаркет - логин' ) %]
+[% h.layout_var( 'meta_desc', ' ') %]
+[% PROCESS ".blocks/main" %]
+
+<div class="analiz_content auth_form">
+<div class="auth_body">
+<h1>Войти на сайт</h1>
+[% IF error %]
+	<span class="logm_err">[% IF user.defined %]Недостаточно прав для посещения этой страницы[% ELSE %]Для доступа к этой странице необходимо авторизоваться[% END %]</span>
+[% END %]
+<form method="POST" action="/auth/login">
+<input type="hidden" name="back_url" value="[% back_url || h.param( 'back_url' ) %]">
+<div class="acc_input logi_p"><label for="loginEnterToSite" class="labelPass">Логин</label><input id="loginEnterToSite" name="login" type="text" title="Логин"></div>
+<div class="acc_input logi_p"><label for="passwordEnterToSite" class="labelPass">Пароль</label><input id="passwordEnterToSite" name="password" type="password" title="Пароль"></div>
+
+<input class="input_submit login_s lbr" type="submit" value="Войти">
+<div class="reg_or_rpass"><a href="/auth/register/">Зарегистрироваться</a> или <a href="/auth/lostpassword/">восстановить пароль</a></div>
+</form>
+</div>
+[% PROCESS pager %]
+</div>

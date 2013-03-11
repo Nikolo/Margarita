@@ -1,0 +1,9 @@
+<h1>Список групп</h1>
+
+[% FOREACH gr = grps %]
+	<a href="/grp/edit/[% gr.id %]">[% gr.name %] ([% gr.description %])</a><br>
+[% END %]
+<form action="/grp/create" method="POST">
+	<input type="text" name="name">
+	<input type="submit" value="Создать">
+</form>

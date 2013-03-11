@@ -1,0 +1,25 @@
+<H1>Редактирование страницы /[% page.controller %]/[% page.action %]</H1>
+<a href="/acl/list">Назад</a>
+<table>
+<form method="POST">
+<input type="submit" value="Сохранить">
+	<tr>
+		<td>Название в меню</td>
+		<td><input type="text" name="menu_name" value="[% page.menu_name %]"></td>
+	</tr>
+	<tr>
+		<td>Название в "хлебных крошках"</td>
+		<td><input type="text" name="title" value="[% page.title %]"></td>
+	</tr>
+	<tr>
+		<td>Добавление в группу</td>
+		<td style="border-right:1px solid black"><select name="add_grp"><option value="">Не выбрано</option>[% FOREACH grp = grps %]<option value="[% grp.id %]">[% grp.name %] ([% grp.description %])</option>[% END %]</select></td>
+	</tr>
+</form>
+	<tr><td colspan=2 valign=top style="border-right:1px solid black"><ol>
+	[% FOREACH grp = page.grps %]
+		<li>[% grp.name %] ([% gr.description %]) <a href="/grp/delete/[% grp.id %]?page_id=[% page.id %]">Удалить</a></li>
+	[% END %]
+	</ol></td>
+	</tr>
+</table>

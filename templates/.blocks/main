@@ -1,0 +1,181 @@
+[% curr_symb = {'RUR' => '<ins>i</ins>', 'KZT' => '<var>a</var>', 'UAH' => '₴', 'BYR' => 'Br'} %]
+[% BLOCK pager_old %]
+	[% IF pager && pager.last_page != pager.first_page %]
+	<table class="t_pager">
+	    <tr>
+		<td class="pager">Cтраницы:</td>
+		<td>[% IF pager.first_page != pager.current_page %]<a href="/[% controller %]/[% action %]/[% IF page.defined %][% id %]/[% END %][% pager.first_page %][% IF pager_add_param %]?[% pager_add_param %][% END %]">[% ELSE %]<b>[% END %][% pager.first_page %][% IF pager.first_page != pager.current_page %]</a>[% ELSE %]</b>[% END %]</td>
+		[% IF pager.previous_page && pager.previous_page - pager.first_page > 1 %]<td>...</td>[% END %]
+		[% IF pager.previous_page != pager.first_page && pager.current_page != pager.first_page %]<td>[% IF pager.previous_page != pager.current_page %]<a href="/[% controller %]/[% action %]/[% IF page.defined %][% id %]/[% END %][% pager.previous_page %][% IF pager_add_param %]?[% pager_add_param %][% END %]">[% ELSE %]<b>[% END %][% pager.previous_page %][% IF pager.previous_page != pager.current_page %]</a>[% ELSE %]</b>[% END %]</td>[% END %]
+		[% IF pager.current_page != pager.next_page && pager.current_page != pager.previous_page && pager.first_page != pager.current_page && pager.last_page != pager.current_page %]<td><b>[%pager.current_page%]</b></td>[% END %]
+		[% IF pager.next_page != pager.last_page && pager.current_page != pager.last_page %]<td>[% IF pager.next_page != pager.current_page %]<a href="/[% controller %]/[% action %]/[% IF page.defined %][% id %]/[% END %][% pager.next_page %][% IF pager_add_param %]?[% pager_add_param %][% END %]">[% ELSE %]<b>[% END %][% pager.next_page %][% IF pager.next_page != pager.current_page %]</a>[% ELSE %]</b>[% END %]</td>[% END %]
+		[% IF pager.next_page && pager.last_page - pager.next_page > 0 %]<td>...</td>[% END %]
+		<td>[% IF pager.last_page != pager.current_page %]<a href="/[% controller %]/[% action %]/[% IF page.defined %][% id %]/[% END %][% pager.last_page %][% IF pager_add_param %]?[% pager_add_param %][% END %]">[% ELSE %]<b>[% END %][% pager.last_page %][% IF pager.next_page != pager.current_page %]</a>[% ELSE %]</b>[% END %]</td>
+	    </tr>
+	</table>
+	[% END %]
+[% END %]
+
+[% BLOCK crumbs %]
+	[% FOREACH cr = h.crumbs %]
+		[% IF !loop.last() %]<a href="[% cr.link %]">[% ELSE %]<b>[% END %][% cr.name %][% IF !loop.last() %]</a>[% ELSE %]</b>[% END %][% IF !loop.last() %] /[% END %]
+	[% END %]
+[% END %]
+
+[% BLOCK pager %]
+	[% IF pager && pager.last_page != pager.first_page %]
+	<table class="t_pager">
+	    <tr>
+		<td class="pager">Cтраницы:</td>
+	[% IF pager.last_page <= 10 %]
+		[% j = 1 %]
+		[% WHILE j <= pager.last_page %]
+			[% IF j != pager.current_page %]
+			<td><a href="/[% controller %]/[% action %]/[% IF page.defined %][% id %]/[% END %][% j %][% IF pager_add_param %]?[% pager_add_param %][% END %]">[% j %]</a></td>
+			[% ELSE %]
+			<td><b>[% j %]</b></td>
+			[% END %]
+			[% j = j + 1 %]
+		[% END %]
+	[% ELSE %]
+		[% start = 1 %]
+		[% end = 10 %]
+		[% prefix = '<td>... </td>' %]
+		[% IF pager.current_page > 0 %]
+			[% IF pager.current_page > 6 %]
+				[% start = pager.current_page - 4 %]
+				[% end = start + 8 %]
+					[% IF end >= pager.last_page - 1 %]
+					[% start = pager.last_page - 9 %]
+					[% end = pager.last_page - 1 %]
+					[% prefix = '' %]
+					[% ELSE %]
+					[% prefix = '<td>... </td>' %]
+					[% END %]
+			[% END %]
+		[% END %]
+		[% IF start > 2 %]
+			<td><a href="/[% controller %]/[% action %]/[% IF page.defined %][% id %]/[% END %]1[% IF pager_add_param %]?[% pager_add_param %][% END %]">1</a></td><td> ...</td>
+		[% END %]
+		[% j = start %]
+		[% WHILE j <= end %]
+		
+			[% IF j != pager.current_page %]
+			<td><a href="/[% controller %]/[% action %]/[% IF page.defined %][% id %]/[% END %][% j %][% IF pager_add_param %]?[% pager_add_param %][% END %]">[% j %]</a></td>
+			[% ELSE %]
+			<td><b>[% j %]</b></td>
+			[% END %]
+		[% j = j + 1 %]
+		[% END %]
+		[% IF pager.current_page != pager.last_page %]
+		[% prefix %]<td><a href="/[% controller %]/[% action %]/[% IF page.defined %][% id %]/[% END %][% pager.last_page %][% IF pager_add_param %]?[% pager_add_param %][% END %]">[% pager.last_page %]</a></td>
+		[% ELSE %]
+		<td><b>[% pager.last_page %]</b></td>
+		[% END %]	
+	[% END %]
+	
+		
+		</tr>
+	</table>
+	[% END %]
+[% END %]
+
+[% BLOCK pager_all %]
+	<table class="t_pager">
+	    <tr>
+	[% WHILE pg < pager.last_page && pg < 900 %]
+		[% pg = pg + 1 %]
+		<td><a href="/[% controller %]/[% action %]/[% pg %]">[% pg %]</a></td>
+	[% END %]
+	    </tr>
+	</table>
+
+[% END %]
+
+
+[% BLOCK left_about %]
+<div class="left_list c_i">
+<i></i><a href="/howitwork/">Как это работает</a>
+</div>
+<div class="left_list c_i">
+<i></i><a href="/howitwork/security">Безопасность</a>
+</div>
+<hr/>
+<div class="left_list c_i">
+<i></i><a href="/howitwork/about/">О компании</a>
+</div>
+<div class="left_list c_i">
+<i></i><a href="/howitwork/press">Пресс-релиз</a>
+</div>
+<div class="left_list c_i">
+<i></i><a href="/howitwork/diag">Диагностика</a>
+</div>
+[% END %]
+
+[% IF cnt_basket > 0 %][% step_status = 1 %][% ELSE %][% step_status = 0 %][% END %]
+[% BLOCK first_step %]
+<div class="top_arrows ta_first_step">
+<a href="/tests/" class="farr t_arr tactive">
+<span class="a_center">
+1. Выберите анализ
+</span>
+</a>
+<div  class="t_arr sel_lab_s">
+<a id="go_to_labs" data-status="[% step_status %]" href="/labs/">
+<span class="a_center">
+2. Выберите лабораторию
+</span>
+</a>
+<div class="stop_analises">Чтобы перейти к выбору лаборатории, добавьте <a href="/tests/">анализы</a> или <a href="/diagnostic/">исследования</a> в корзину.</div>
+</div>
+<div class="larr t_arr sel_order_s">
+<div class="a_center">
+3. Распечатайте заказ
+</div>
+<div class="stop_cart">Чтобы оформить заказ, выберите <a href="/tests/">анализы</a> или <a href="/diagnostic/">исследования</a> <b>и <a href="/labs/">лабораторию</a></b>.</div>
+</div>
+</div>
+[% END %]
+[% BLOCK second_step %]
+<div class="top_arrows ta_second_step">
+<a href="/tests/" class="farr t_arr t_step">
+<span class="a_center">
+1. Выберите анализ
+</span>
+</a>
+<div class="t_arr tactive">
+<span class="a_center">
+2. Выберите лабораторию
+</span>
+</div>
+<div class="larr t_arr sel_order_s">
+<div class="a_center">
+3. Распечатайте заказ
+</div>
+<div class="stop_cart">Чтобы оформить заказ, выберите <a href="/tests/">анализы</a> и лабораторию.</div>
+</div>
+</div>
+[% END %]
+
+[% BLOCK network_name_js %]
+	<script language="JavaScript">
+	$(".network_name").click( function(){
+	    $link = $(this);
+	    $.ajax({
+	      url: $link.attr("href"),
+	    }).done(function(data) {
+	      $link.html(data.join(", "));
+	    });
+	  return false;
+	})
+	</script>
+[% END %]
+[% BLOCK colb_width;
+ nrate = rct_rating FILTER format('%.1f'); 
+ frate = rct_rating FILTER format('%.0f');
+ IF !frate;
+ frate = 1;
+ END;
+ labs_width = nrate*colb_width + (frate - 1)*colb_padding ;
+ labs_width;
+ END %]

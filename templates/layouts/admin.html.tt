@@ -1,0 +1,6 @@
+[% PROCESS '.blocks/layouts' %]
+<!DOCTYPE html>
+<html>
+      <head><title>Админка</title></head>
+	  <body>[% h.content %]</body>
+</html>

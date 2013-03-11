@@ -1,0 +1,22 @@
+[% PROCESS ".blocks/main" %]
+<h2>Список страниц</h2>
+<table width="100%">
+        <tr>
+            <th>URL</th>
+            <th>Название в меню</th>
+			<th>Название в "хлебных крошках"</th>
+			<th>Действие</th>
+            <th>Права доступа</th>
+        </tr>
+[% FOREACH page = units %]
+        <tr><form method="POST" action="/acl/edit/[% page.id %]">
+                <td class="coll_name">/[% page.controller %]/[% page.action %]</td>
+			<td><input type="text" name="menu_name" value="[% page.menu_name %]"></td>
+			<td><input type="text" name="title" value="[% page.title %]"></td>
+	        <td><input type="submit" value="Обновить"></td>
+			<td><a href="/acl/edit/[% page.id %]">Редактировать права доступа</a></td>
+        </form></tr>
+[% END %]
+</table>
+[% PROCESS pager %]
+

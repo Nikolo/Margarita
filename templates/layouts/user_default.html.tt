@@ -1,0 +1,59 @@
+[% PROCESS ".blocks/layouts" %]
+[% PROCESS header %]
+[% IF h.config_site.ya_verification %]<meta name='yandex-verification' content='[% h.config_site.ya_verification %]' />[% END %]
+<body>
+[% IF h.config_site.facebook_enabled %]
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) return;
+		js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/ru_RU/all.js#xfbml=1";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+[% END %]
+[% IF h.config_site.vk_enabled %]
+	<script type="text/javascript" src="//vk.com/js/api/openapi.js?69"></script>
+	<script type="text/javascript">VK.init({apiId: [% h.config_site.vk_apiId %], onlyWidgets: true});</script>
+[% END %]
+	[% PROCESS layers %]
+	<div id="main">
+		<div class="lens">
+			<div class="inner">
+				<!-- Логин -->
+				[% PROCESS top_login %]
+					<div class="content">
+					[% IF h.config_site.sharethis_enabled %]
+						<div class="sharer">
+							<!-- AddThis Button BEGIN -->
+							<div class="addthis_toolbox addthis_floating_style addthis_16x16_style" 
+								addthis:title="[% h.config_site.name %]"
+								addthis:description="На сайте «[% h.config_site.name %]» [% h.config_site.description %]">
+								<a rel="nofollow" class="addthis_button_vk"></a>
+								<a rel="nofollow" class="addthis_button_facebook"></a>
+								<a rel="nofollow" class="addthis_button_twitter"></a>
+								<a rel="nofollow" class="addthis_button_odnoklassniki_ru"></a>
+								<a class="addthis_button_compact"></a>
+							</div>
+							<!-- AddThis Button END -->
+						</div>
+					[% END %]
+						<div class="logo_and_menu">
+							<a href="/"><img src="/img/logo.gif" class="logo_img" alt="[% h.config_site.name %]" /></a>
+							[% PROCESS menu %]
+						</div>
+						[% PROCESS show_errors %]
+						<div class="near_labs">[%# PROCESS labs_adress %][%# PROCESS basket %]</div>
+						[% h.content %]
+						<div class="clear"></div>
+					</div>
+				</div>
+			[% PROCESS footer %]
+			</div>
+		</div>
+	</div>
+	[% IF h.config_site.sharethis_enabled %]
+	<script type="text/javascript" src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=[% h.config_site.sharethis_pubid %]"></script>
+	[% END %]
+</body>
+</html>
