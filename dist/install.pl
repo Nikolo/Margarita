@@ -153,10 +153,11 @@ system( "cat margarita_setup_tmp.sql | psql -h $dbhost -U $dbuser $dbname" );
 unlink( "margarita_setup_tmp.sql" );
 info( "Generatin DBIx::Class schema" );
 system( "dbicdump -o dump_directory=../lib -o components='[\"InflateColumn::DateTime\"]' Schema 'dbi:Pg:dbname=$dbname;host=$dbhost' $dbuser $dbpass 2>&1" );
-
+my $cfg_file_name = $hostname;
+$cfg_file_name =~ s/\./_/g;
 info( "Create init script" );
 my $INIT;
-open $INIT, "> $path_to_init/margarita";
+open $INIT, "> $path_to_init/$cfg_file_name";
 
 printf $INIT <<EOF_INIT;
 #!/bin/sh
@@ -215,11 +216,11 @@ exit 0
 EOF_INIT
 
 close( $INIT );
-system( "chmod a+x $path_to_init/margarita" );
+system( "chmod a+x $path_to_init/$cfg_file_name" );
 
 info( "Create wrapper" );
 my $WRAPPER;
-open $WRAPPER, "> $path_to_wrapper/margarita_wrapper.sh";
+open $WRAPPER, "> $path_to_wrapper/${cfg_file_name}_wrapper.sh";
 
 printf $WRAPPER <<EOF_WRAPPER;
 #!/bin/bash
@@ -246,11 +247,11 @@ done
 EOF_WRAPPER
 
 close( $WRAPPER );
-system( "chmod a+x $path_to_wrapper/margarita_wrapper.sh" );
+system( "chmod a+x $path_to_wrapper/${cfg_file_name}_wrapper.sh" );
 
 info( "Create nginx config" );
 my $NGINX;
-open $NGINX, "> $path_to_nginx_config_avail/margarita";
+open $NGINX, "> $path_to_nginx_config_avail/$cfg_file_name";
 my $redir_host = $hostname;
 if( $redir_host =~ /^www/ ){
 	$redir_host =~ s/^www.//;
@@ -323,3 +324,11 @@ printf $NGINX <<EOF_NGINX;
 		proxy_set_header X-Real-IP \$remote_addr;
 	}
 }
+EOF_NGINX
+
+close($NGINX);
+system( "ln -s $path_to_nginx_config_avail/$cfg_file_name $path_to_nginx_config_enabled/001-$cfg_file_name.conf" );
+
+info( "Installetion complete.".$/."- start margarita CMS $path_to_init/$cfg_file_name start".$/."- reload nginx /etc/init.d/nginx reload".$/."- go to link http://$hostname/auth/activationlink/firstlogin?email=$admin_email");
+
+
