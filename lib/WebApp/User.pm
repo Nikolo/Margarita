@@ -22,7 +22,7 @@ sub data {
 	}
 	my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,undef) = localtime(time);
 	if ( $self->stash->{user} && $self->stash->{user}->last_visit ) {
-		$self->app->schema->resultset('User')->find({ id => $self->session->{user_id} })->update({ last_visit => DateTime->now->set_time_zone( 'Europe/Moscow' ) }) if ( $yday != $self->stash->{user}->last_visit->day_of_year)
+		$self->app->schema->resultset('User')->find({ id => $self->session->{user_id} })->update({ last_visit => DateTime->now->set_time_zone( 'Europe/Moscow' ) }) if $self->stash->{user}->last_visit || $yday != $self->stash->{user}->last_visit->day_of_year;
 	}
 	if ( $self->stash->{user} && ! $self->stash->{user}->last_visit ) {
 		$self->app->schema->resultset('User')->find({ id => $self->session->{user_id} })->update({ last_visit => DateTime->now->set_time_zone( 'Europe/Moscow' ) })

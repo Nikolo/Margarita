@@ -124,21 +124,28 @@ printf $SQL <<EOF_SQL;
 INSERT INTO users (id, email, activationid) VALUES (1, '$admin_email', 'firstlogin'); 
 INSERT INTO grps (id, name, description) VALUES (0, 'unauthorized', 'Неавторизованные пользователи'); 
 INSERT INTO grps (id, name, description) VALUES (1, 'admin', 'Администраторы'); 
-INSERT INTO pages (id, controller, action) VALUES (1, 'page', 'list'); 
-INSERT INTO pages (id, controller, action) VALUES (2, 'page', 'edit'); 
-INSERT INTO pages (id, controller, action) VALUES (3, 'page', 'edit'); 
-INSERT INTO pages (id, controller, action) VALUES (4, 'auth', 'login'); 
-INSERT INTO pages (id, controller, action) VALUES (5, 'auth', 'logout'); 
-INSERT INTO pages (id, controller, action) VALUES (6, 'user', 'welcome'); 
-INSERT INTO pages (id, controller, action) VALUES (7, 'auth', 'activationlink'); 
+INSERT INTO pages (id, controller, action) VALUES (0, 'auth', 'activationlink'); 
+INSERT INTO pages (id, controller, action) VALUES (1, 'page', 'edit'); 
+INSERT INTO pages (id, controller, action) VALUES (2, 'page', 'upload'); 
+INSERT INTO pages (id, controller, action) VALUES (3, 'auth', 'login'); 
+INSERT INTO pages (id, controller, action) VALUES (4, 'auth', 'logout'); 
+INSERT INTO pages (id, controller, action) VALUES (5, 'user', 'welcome'); 
+INSERT INTO pages (id, controller, action) VALUES (6, 'page', 'list'); 
+INSERT INTO pages (id, controller, action) VALUES (7, 'admin', 'welcome'); 
+INSERT INTO pages (id, controller, action) VALUES (8, 'page', 'menu_delete'); 
+INSERT INTO acls (grp_id, page_id) VALUES (1,6); 
 INSERT INTO acls (grp_id, page_id) VALUES (1,1); 
 INSERT INTO acls (grp_id, page_id) VALUES (1,2); 
-INSERT INTO acls (grp_id, page_id) VALUES (1,3); 
+INSERT INTO acls (grp_id, page_id) VALUES (0,3); 
 INSERT INTO acls (grp_id, page_id) VALUES (0,4); 
-INSERT INTO acls (grp_id, page_id) VALUES (0,5); 
-INSERT INTO acls (grp_id, page_id) VALUES (0,7); 
-INSERT INTO acls (grp_id, page_id) VALUES (1,6); 
-INSERT INTO roles (id, user_id, grp_id) VALUES (1,1,1);
+INSERT INTO acls (grp_id, page_id) VALUES (0,0); 
+INSERT INTO acls (grp_id, page_id) VALUES (1,5); 
+INSERT INTO acls (grp_id, page_id) VALUES (1,8); 
+INSERT INTO roles (user_id, grp_id) VALUES (1,1);
+INSERT INTO menu_types (id, name) VALUES (0, 'admin');
+INSERT INTO menu_types (id, name) VALUES (1, 'top');
+INSERT INTO menu (menu_type_id,page_id,name,position) VALUES (0,6,'Список страниц',1000);
+INSERT INTO menu (menu_type_id,page_id,name, position) VALUES (1,7,'Админка',1000);
 EOF_SQL
 
 info( "Create tables in db".$/."WARNING!!! No admin password, new user password" );
@@ -149,6 +156,13 @@ system( "dbicdump -o dump_directory=../lib -o components='[\"InflateColumn::Date
 
 info( "Create init script" );
 my $INIT;
+open $INIT, "> $path_to_init/margarita";
+
+printf $INIT <<EOF_INIT;
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          margaritaCMS
+# Required-Start:    \$local_fs \$remote_fs \$network \$syslog \$named
 open $INIT, "> $path_to_init/margarita";
 
 printf $INIT <<EOF_INIT;
@@ -292,7 +306,7 @@ EOF_NGINX
 my $static_path = $FindBin::Bin;
 $static_path =~ s{/[^/]+$}{};
 $static_path .= '/public';
-for (qw/img js css work fonts/){
+for (qw/img js css bootstrap/){
 	printf $NGINX <<EOF_NGINX;
 	location /$_/ {
 		root $static_path;
@@ -309,10 +323,3 @@ printf $NGINX <<EOF_NGINX;
 		proxy_set_header X-Real-IP \$remote_addr;
 	}
 }
-EOF_NGINX
-
-close($NGINX);
-system( "ln -s $path_to_nginx_config_avail/margarita $path_to_nginx_config_enabled/001-margarita.conf" );
-
-info( "Installetion complete".$/."Please:".$/."- start margarita CMS $path_to_init/margarita start".$/."- reload nginx /etc/init.d/nginx reload".$/."- go to link http://$hostname/auth/activationlink/firstlogin?email=$admin_email");
-

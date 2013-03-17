@@ -1,21 +1,38 @@
 [% PROCESS ".blocks/main" %]
+
+<script>
+$(document).ready(function() {
+
+$('.sbajax').click(function() {
+$(this).val('Обновляется...')
+$(this).addClass('disabled')
+var btn = $(this)
+var id = $(this).attr('data-id')
+var form = $('#fid_' + id)
+var act = form.attr('action')
+$.post(act, form.serialize()).done(function() {
+btn.val('Обновить')
+btn.removeClass('disabled')
+});
+return false;
+})
+})
+</script>
+
+
 <h2>Список страниц</h2>
-<table width="100%">
+<table class="table table-striped table-hover">
         <tr>
             <th>URL</th>
-            <th>Название в меню</th>
 			<th>Название в "хлебных крошках"</th>
 			<th>Действие</th>
-            <th>Права доступа</th>
         </tr>
 [% FOREACH page = units %]
-        <tr><form method="POST" action="/acl/edit/[% page.id %]">
-                <td class="coll_name">/[% page.controller %]/[% page.action %]</td>
-			<td><input type="text" name="menu_name" value="[% page.menu_name %]"></td>
-			<td><input type="text" name="title" value="[% page.title %]"></td>
-	        <td><input type="submit" value="Обновить"></td>
-			<td><a href="/acl/edit/[% page.id %]">Редактировать права доступа</a></td>
-        </form></tr>
+        <tr>
+            <td class="coll_name"><a href="/[% page.controller %]/[% page.action %]" target="_blank"><i class="icon-share"></i></a> &nbsp;<code><a href="/[% page.controller %]/[% page.action %]" target="_blank">/[% page.controller %]/[% page.action %]</a></code></td>
+			<td>[% page.title %]</td>
+			<td><a href="/page/edit/[% page.id %]">Редактировать</a></td>
+       </tr>
 [% END %]
 </table>
 [% PROCESS pager %]

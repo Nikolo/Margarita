@@ -51,7 +51,7 @@ sub tt_param {
 		INCLUDE_PATH => $self->config->{template}->{INCLUDE_PATH}||$FindBin::Bin.'/../templates/',
 		COMPILE_DIR  => $self->config->{template}->{COMPILE_DIR}||'/tmp/margarita_tt',
 		COMPILE_EXT  => $self->config->{template}->{COMPILE_EXT}||'.ttc',
-		ENCODING     => $self->config->{template}->{ENCODING}||'utf8'
+		ENCODING     => $self->config->{template}->{ENCODING}||'utf8',
 	}
 }
 
@@ -74,7 +74,7 @@ sub startup {
 	}
 	my $ret = {};
 	foreach ($self->schema->resultset('Page')->search(undef, {order_by => "controller"})->all()){
-		next if -f $template_path_main.'/'.$_->controller.'/'.$_->action.'.html.tt';
+		next if -f $path_to_template.'/'.$_->controller.'/'.$_->action.'.html.tt';
 		$ret->{$_->controller}->{$_->action} = 1;
 	}
 	foreach my $coll (keys %$ret){
@@ -103,6 +103,7 @@ sub startup {
 			foreach ( grep { -f $path_to_template.'/'.$dir_main.'/'.$_ } $files->read()){
 				s/\..*?\..*?$//;
 				next unless $_;
+				next if $dir_main =~ /layouts|\.mail/;
 				$self->app->schema->resultset('Page')->new({controller => $dir_main, action => $_})->insert() unless $self->app->schema->resultset('Page')->find({controller => $dir_main, action => $_});
 			}
 		}
@@ -110,17 +111,17 @@ sub startup {
 	$dirs_main = IO::Dir->new( $path_to_template.'/../lib/WebApp/' );
 	foreach my $pms ( grep { $_ =~ /\.pm$/ && -f $path_to_template.'/../lib/WebApp/'.$_ } $dirs_main->read()){
 		my $FH;
-		open( $FH, "<", $template_path_main.'/../lib/WebApp/'.$pms);
+		open( $FH, "<", $path_to_template.'/../lib/WebApp/'.$pms);
 		$pms = lc($pms);
 		$pms =~ s/\.pm$//;
 		my $need_list = 0;
 		while( <$FH> ){
 			$need_list = 1 if /^use base.*WebApp::Controller/;
+			next if $pms =~ /layouts|\.mail/;
 			$self->app->schema->resultset('Page')->new({controller => $pms, action => $1})->insert() if $need_list && /sub\s+([^_].*?)(?:\s*{|$)/ && !$self->app->schema->resultset('Page')->find({controller => $pms, action => $1});
 		}
 		close( $FH );
 	}
-
 
 	$self->helper( mtime_static => sub { $max_t });
 	$self->sessions->default_expiration( 60 * 60 * 24 * 3 );
@@ -167,11 +168,48 @@ sub startup {
 			return $layout_var->{$var};
 		}
 	});
+	$self->helper( menu_items => sub{
+		my $self = shift;
+		my $type = shift;
+		my $controller = shift;
+		my $ret = [$self->app->schema->resultset('Menu')->search(
+			{
+				"roles.user_id" => $self->session->{user_id}, 
+				'menu_type.name' => $type,
+				$controller ? ("page.controller" => $controller ) : ()
+			},
+			{
+				join => [ 'menu_type', {page => {acls => {grp => 'roles'}}}], 
+				group_by => "me.id", 
+				order_by => [qw/position/]
+			}
+		)->all()];
+$self->app->log->warn( $self->session->{user_id}, $type );
+		return $ret;
+	});
+
 	$self->helper( config_site => sub {	shift->config->{site} });
 	$self->helper( exist_layout_var => sub {
 		my $self = shift;
 		my $var = shift;
 		return exists $self->stash( 'layout_var' )->{$var};
+	});
+	$self->helper( image_for_object => sub {
+        my $self = shift;
+		my $obj_name = shift;
+		my $obj_id = shift;
+		my $keyword = shift;
+		my $res = [];
+		return [$self->app->schema->resultset('Upload')->search(
+				{
+					obj_name => $obj_name, 
+					obj_id => $obj_id, 
+					$keyword ? (tmpl_keyword => $keyword) : () 
+				}, 
+				{
+					order_by => { -desc => "name"}
+				} 
+			)->all];
 	});
 	$self->hook(after_static_dispatch => sub {
 		my $tx = shift;

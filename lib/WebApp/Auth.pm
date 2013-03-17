@@ -15,7 +15,7 @@ sub bridge {
 		$self->render_not_found;
 		return 0;
 	}
-	return 1 if $stack[0]->{controller} eq 'auth' && $stack[0]->{action} =~ /login|logout/; 
+#	return 1 if $stack[0]->{controller} eq 'auth' && $stack[0]->{action} =~ /login|logout/; 
 	foreach( @stack ){
 		unless( $self->app->schema->resultset( 'Page' )->search( { action => $_->{action}, controller=> $_->{controller}})->all()){
 			$self->render_not_found ;
@@ -36,12 +36,7 @@ sub bridge {
 			}, 
 			{ join => { 'acls' => {'grp' => 'roles' }}} 
 		)->all()){
-			if( $self->session->{user_id} && $self->app->schema->resultset( 'Grp' )->search( { is_tp => 1, 'roles.user_id' => $self->session->{user_id}},{join => "roles"} )->first && $self->app->schema->resultset( 'Page' )->search( {'grp.is_tp' => 1, 'me.action'     => $_->{action}, 'me.controller' => $_->{controller}}, {join => {acls => 'grp'}} )->first){
-				$self->render( {template => "main/change_tp", error => 'Not access for this tp'});
-			}
-			else {
-				$self->render( template => "auth/login", error => 'Need auth', back_url => $self->param('back_url')||'/'.$_->{controller}.'/'.$_->{action}.'/'.$_->{id} );
-			}
+			$self->render( template => "auth/login", error => '1', back_url => $self->param('back_url')||'/'.$_->{controller}.'/'.$_->{action}.'/'.$_->{id} );
 			return 0;
 		}
 	}
@@ -53,7 +48,7 @@ sub bridge {
 sub login {
 	my $self = shift;
 	if( $self->isPOST ){
-		return $self->render({ error => 'No valid login, pass' }) if $self->user_auth( $self->param('login'), $self->param('password'));
+		return $self->render({ error => '2' }) if $self->user_auth( $self->param('login'), $self->param('password'));
 		$self->redirect_back();
 	}
 	return $self->render();

@@ -1,6 +1,0 @@
-[% FOREACH controller = need_to_delete.keys %]
-	[% FOREACH action = need_to_delete.$controller.keys %]
-		[% controller %]/[% action %]<br>
-	[% END %]
-[% END %]
-<form method="POST"><input type="submit" value="Очистить"></form>

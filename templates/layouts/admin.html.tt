@@ -1,6 +1,39 @@
 [% PROCESS '.blocks/layouts' %]
 <!DOCTYPE html>
 <html>
-      <head><title>Админка</title></head>
-	  <body>[% h.content %]</body>
+      <head>
+	<title>Админка</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+	<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="/bootstrap/css/bootstrap-fileupload.min.css" rel="stylesheet" media="screen">
+	<script src="/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/bootstrap/js/bootstrap-fileupload.min.js"></script>
+      </head>
+	  <body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+
+			
+              <li class="" style="position:relative;width:100px">
+                <a href="#"><img src="/img/mcmslogo.png" style="position:absolute;top:20px;" /></a>
+              </li>
+				<li class="">
+                <a href="/admin/">Все разделы</a>
+              </li>
+			  
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="container" style="margin-top:70px;">
+[% PROCESS show_errors %]
+[% h.content %]
+</div>
+</body>
 </html>

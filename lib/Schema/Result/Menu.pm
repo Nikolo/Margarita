@@ -1,12 +1,12 @@
 use utf8;
-package Schema::Result::Acl;
+package Schema::Result::Menu;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-Schema::Result::Acl
+Schema::Result::Menu
 
 =cut
 
@@ -15,15 +15,22 @@ use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 TABLE: C<acls>
+=head1 TABLE: C<menu>
 
 =cut
 
-__PACKAGE__->table("acls");
+__PACKAGE__->table("menu");
 
 =head1 ACCESSORS
 
-=head2 grp_id
+=head2 id
+
+  data_type: 'integer'
+  is_auto_increment: 1
+  is_nullable: 0
+  sequence: 'menu_id_seq'
+
+=head2 menu_type_id
 
   data_type: 'integer'
   is_foreign_key: 1
@@ -35,29 +42,63 @@ __PACKAGE__->table("acls");
   is_foreign_key: 1
   is_nullable: 1
 
+=head2 name
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 100
+
+=head2 position
+
+  data_type: 'integer'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
-  "grp_id",
+  "id",
+  {
+    data_type         => "integer",
+    is_auto_increment => 1,
+    is_nullable       => 0,
+    sequence          => "menu_id_seq",
+  },
+  "menu_type_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "page_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  "name",
+  { data_type => "varchar", is_nullable => 1, size => 100 },
+  "position",
+  { data_type => "integer", is_nullable => 1 },
 );
+
+=head1 PRIMARY KEY
+
+=over 4
+
+=item * L</id>
+
+=back
+
+=cut
+
+__PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
-=head2 grp
+=head2 menu_type
 
 Type: belongs_to
 
-Related object: L<Schema::Result::Grp>
+Related object: L<Schema::Result::MenuType>
 
 =cut
 
 __PACKAGE__->belongs_to(
-  "grp",
-  "Schema::Result::Grp",
-  { id => "grp_id" },
+  "menu_type",
+  "Schema::Result::MenuType",
+  { id => "menu_type_id" },
   {
     is_deferrable => 0,
     join_type     => "LEFT",
@@ -87,8 +128,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07033 @ 2013-03-14 23:01:42
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:TwySO0m3mL7kBOnmBpjRPw
+# Created by DBIx::Class::Schema::Loader v0.07033 @ 2013-03-16 15:19:31
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:VFsYsbS7UoB6penXMn/H3w
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

@@ -1,3 +1,5 @@
+[% h.layout_var( 'meta_desc', '' ) %]
+[% h.layout_var( 'meta_title', 'Активация аккаунта' ) %]
 <body style="padding:0px;margin:0px;">
 
 <a href="/" style="border:0px;display:block;margin:30px auto;width:240px;"><img src="/img/logo.gif" /></a>

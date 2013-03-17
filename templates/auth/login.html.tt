@@ -1,21 +1,35 @@
-[% h.layout_var( 'meta_title', 'АнализМаркет - логин' ) %]
+[% h.layout_var( 'meta_title', 'Вход' ) %]
 [% h.layout_var( 'meta_desc', ' ') %]
-[% PROCESS ".blocks/main" %]
-
-<div class="analiz_content auth_form">
 <div class="auth_body">
-<h1>Войти на сайт</h1>
-[% IF error %]
-	<span class="logm_err">[% IF user.defined %]Недостаточно прав для посещения этой страницы[% ELSE %]Для доступа к этой странице необходимо авторизоваться[% END %]</span>
-[% END %]
-<form method="POST" action="/auth/login">
-<input type="hidden" name="back_url" value="[% back_url || h.param( 'back_url' ) %]">
-<div class="acc_input logi_p"><label for="loginEnterToSite" class="labelPass">Логин</label><input id="loginEnterToSite" name="login" type="text" title="Логин"></div>
-<div class="acc_input logi_p"><label for="passwordEnterToSite" class="labelPass">Пароль</label><input id="passwordEnterToSite" name="password" type="password" title="Пароль"></div>
-
-<input class="input_submit login_s lbr" type="submit" value="Войти">
-<div class="reg_or_rpass"><a href="/auth/register/">Зарегистрироваться</a> или <a href="/auth/lostpassword/">восстановить пароль</a></div>
-</form>
-</div>
-[% PROCESS pager %]
+	<h1>Войти на сайт</h1>
+	[% IF error %]
+		<span class="logm_err">
+			[% IF error == 1 and user.defined %]
+				Недостаточно прав для посещения этой страницы
+			[% ELSIF error == 1 %]
+				Для доступа к этой странице необходимо авторизоваться
+			[% ELSIF error == 2 %]
+				Неверный логин или пароль
+			[% END %]
+		</span>
+	[% END %]
+	<form method="POST" action="/auth/login">
+		<input type="hidden" name="back_url" value="[% back_url || h.param( 'back_url' ) %]">
+		<div class="login_email">
+			<label for="loginEnterToSite" class="labelPass">Логин</label>
+			<input name="login" type="text" title="Логин">
+		</div>
+		<div class="login_pass">
+			<label for="passwordEnterToSite" class="labelPass">Пароль</label>
+			<input name="password" type="password" title="Пароль">
+		</div>
+		<div class="clearpos"></div>
+		<div class="login_submit">
+			<input class="input_submit" type="submit" value="Войти">
+		</div>
+		<div class="reg_or_rpass">
+			<a href="/auth/register/">Зарегистрироваться</a> или 
+			<a href="/auth/lostpassword/">восстановить пароль</a>
+		</div>
+	</form>
 </div>

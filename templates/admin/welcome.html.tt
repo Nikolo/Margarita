@@ -1,0 +1,10 @@
+[% layout = h.layout('admin') %]
+[% PROCESS ".blocks/main" %]
+<div class="row">
+	[% FOREACH menu = h.menu_items( 'admin' ) %]
+						<div class="span4" style="height:160px;">
+          <img [% counts = h.image_for_object('menu',menu.id,'admin_image') %][% IF counts.size > 0 && counts.name %]src="/pages/[% counts.name %]"[% END %] style="float:left;margin-right:40px;width:70px"/><div style="float:left;width:70%"><h4>[% menu.name %]</h4>
+          <p><a class="btn" href="/[% menu.page.controller _ '/' _ menu.page.action %]">перейти »</a></p></div>
+        </div>	
+			[% END %]
+			</div>

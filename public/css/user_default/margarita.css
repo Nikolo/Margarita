@@ -1,0 +1,197 @@
+body {
+	color: #535353;
+	font-family: "Open Sans","Tahoma","Verdana","Arial", sans-serif;
+}
+
+h3 {
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 27px;
+}
+
+#container {
+	margin: 0 auto;
+	overflow: hidden;
+	width: 1000px;
+}
+
+#header {
+	margin: 30px 0;
+	position: relative;
+}
+
+.wrap {
+	overflow: hidden;
+}
+
+.logo {
+	display: inline-block;
+	float: left;
+	height: 55px;
+	overflow: hidden;
+	width: 400px;
+}
+
+.date {
+	color: #AEAEAE;
+	float: left;
+	font-size: 14px;
+	margin-right: 30px;
+	width: 300px;
+	margin-top: 15px;
+}
+
+.social {
+	max-width: 207px;
+	float: right;
+}
+
+#menu {
+	width: 100%;
+	background: #333333;
+	float: left;
+	position: relative;
+	z-index: 30;
+	margin-top: 30px;
+	height: 58px;
+}
+
+.social ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.social li {
+	margin-left: 5px;
+	float: left;
+	padding: 0px;
+}
+
+#menu ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	float: left;
+	list-style-type: none;
+	position: relative;
+	z-index: 99;
+}
+
+#menu li {
+	position: relative;
+	float: left;
+	padding: 0px;
+	margin: 0px;
+}
+
+#menu a {
+	color: #FFFFFF;
+	display: block;
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 22px;
+	padding: 18px 22px;
+	text-align: center;
+}
+
+#menu a:link {
+	text-decoration: none;
+}
+
+#menu a:hover {
+	background: #359BED;
+}
+
+#footer {
+	border-top: 1px solid #EEEEEE;
+}
+
+#main {
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	width: 700px;
+	float: left;
+	overflow: hidden;
+}
+
+.widget h3 {
+	background-image: url( '/img/user_default/arrow-circle.png' );
+	background-position: 96% 12px;
+	background-repeat: no-repeat;
+	background-color: #359BED;
+	padding: 8px 12px;
+	color: #FFFFFF;
+	margin-bottom: 15px;
+}
+
+.sidebar .widget {
+	margin-bottom: 30px;
+	overflow: hidden;
+	display: block;
+}
+
+.field {
+	margin: 10px 0;
+}
+
+.widget input.text, .widget .textarea {
+	padding: 10px;
+	width: 90%;
+	border: 1px solid #eee;
+
+}
+
+.auth_body h1 {
+	margin-bottom: 0px;
+}
+
+.logm_err {
+	margin-bottom: 30px;
+	color: #ff4b33;
+	font-weight: bold;
+	display: block;
+}
+
+.auth_body .login_email, .login_pass {
+	float: left;
+	width: 300px;
+	margin-right: 30px;
+}
+
+.auth_body label {
+	display: block;
+	font-size: 18px;
+}
+
+.auth_body input {
+	display: block;
+	font-size: 14px;
+	padding: 14px;
+	border: 1px solid #E6E6E6;
+	margin-bottom: 30px;
+	color: #AEAEAE;
+	width: 280px;
+}
+
+.auth_body .login_submit {
+	margin-bottom: 0px;
+}
+
+.input_submit {
+	background: #FA824F;
+	color: #FFFFFF !important;
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: 600;
+	display: inline-block;
+	padding: 10px 12px;
+	text-decoration: none;
+	border: none;
+	margin: 10px 0px 50px;
+
+}
+
+.clearpos {
+	clear: both;
+}

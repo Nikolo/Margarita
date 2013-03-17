@@ -1,12 +1,8 @@
 <H1>Редактирование страницы /[% page.controller %]/[% page.action %]</H1>
-<a href="/acl/list">Назад</a>
+<a href="/page/list">Назад</a>
 <table>
 <form method="POST">
 <input type="submit" value="Сохранить">
-	<tr>
-		<td>Название в меню</td>
-		<td><input type="text" name="menu_name" value="[% page.menu_name %]"></td>
-	</tr>
 	<tr>
 		<td>Название в "хлебных крошках"</td>
 		<td><input type="text" name="title" value="[% page.title %]"></td>
@@ -14,6 +10,8 @@
 	<tr>
 		<td>Добавление в группу</td>
 		<td style="border-right:1px solid black"><select name="add_grp"><option value="">Не выбрано</option>[% FOREACH grp = grps %]<option value="[% grp.id %]">[% grp.name %] ([% grp.description %])</option>[% END %]</select></td>
+		<td>Добавление в меню</td>
+		<td><select name="add_menu"><option value="">Не выбрано</option>[% FOREACH type = menu_types %]<option value="[% type.id %]">[% type.name %]</option>[% END %]</select> Название: <input type="text" name="menu_name"></td>
 	</tr>
 </form>
 	<tr><td colspan=2 valign=top style="border-right:1px solid black"><ol>
@@ -21,5 +19,24 @@
 		<li>[% grp.name %] ([% gr.description %]) <a href="/grp/delete/[% grp.id %]?page_id=[% page.id %]">Удалить</a></li>
 	[% END %]
 	</ol></td>
+	<td colspan=2><ol>
+		[% FOREACH menu = page.menus %]
+			<li>[% menu.menu_type.name %] ([% menu.name %])<a href="/page/menu_delete/[% page.id %]?menu_id=[% menu.id %]">Удалить</a></li>	
+		[% END %]
+	</ol></td>
 	</tr>
+[% IF 0 %]
+	<tr>
+		<td>Название в меню</td>
+		<td><input type="text" name="menu_name" value="[% page.menu_name %]"></td>
+	</tr>
+			<td><form enctype="multipart/form-data" action="/page/upload_post/[% page.id %]" method="POST">
+			<div class="fileupload fileupload-new" data-provides="fileupload">
+  <div class="fileupload-new thumbnail" style="width: 50px; height: 50px;"><img [% counts = h.image_for_object('pages',page.id,'admin_image') %][% IF counts.size > 0 && counts.name %]src="/pages/[% counts.name %]"[% END %] /></div>
+  <div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px;"></div>
+  <span class="btn btn-file"><span class="fileupload-new">Иконка</span><span class="fileupload-exists">изменить</span><input type="file" name="img" /></span>
+  <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Х</a>
+</div>		
+			<input type="submit" class="btn btn-small" value="Обновить"/></form></td>
+[% END %]
 </table>
