@@ -94,6 +94,8 @@ $cfg->set( "db", { "name" => $dbname, "host" => $dbhost, "user" => $dbuser, "pas
 $cfg->set( "MAIL_FROM", $email_from );
 $cfg->set( "memcache", $memcache ) if keys %$memcache; 
 
+system("cd ../ && tools/create_tamplate_cfg.sh && cd -");
+
 if( $have_admin_pass ){
 	if( $type_db eq 'psql' ){
 		info( "Create user in DB".$/."Enter database admin password" );
