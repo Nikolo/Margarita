@@ -9,6 +9,10 @@ h3 {
 	line-height: 27px;
 }
 
+a:link {
+	text-decoration: none;
+}
+
 #container {
 	margin: 0 auto;
 	overflow: hidden;
@@ -46,6 +50,37 @@ h3 {
 	float: right;
 }
 
+.socialcnt .cont, .socialcnt .text {
+	text-align: right;
+	color: #FFFFFF;
+}
+
+.facebook, .twitter {
+	width: 107px;
+	height: 107px;
+	padding: 10px;
+	float: left;
+}
+
+.facebook {
+	background: #3C5B9B;
+	margin-right: 16px;
+}
+
+.twitter {
+	background: #59C8FF;
+	margin-left: 18px;
+}
+
+.cont {
+	font-size: 22px;
+	margin-top: 30px;
+}
+
+.socialcnt a {
+	color: #FFFFFF;
+}
+
 #menu {
 	width: 100%;
 	background: #333333;
@@ -53,7 +88,7 @@ h3 {
 	position: relative;
 	z-index: 30;
 	margin-top: 30px;
-	height: 58px;
+	height: 60px;
 }
 
 .social ul {
@@ -105,6 +140,7 @@ h3 {
 
 #footer {
 	border-top: 1px solid #EEEEEE;
+	padding-top: 10px;
 }
 
 #main {
@@ -129,6 +165,10 @@ h3 {
 	margin-bottom: 30px;
 	overflow: hidden;
 	display: block;
+}
+
+.sidebar {
+	float: left;
 }
 
 .field {
@@ -190,6 +230,20 @@ h3 {
 	border: none;
 	margin: 10px 0px 50px;
 
+}
+
+.poweredby {
+	float: right;
+	height: 40px;
+}
+
+.cpyright {
+	float: left;
+	height: 40px;
+}
+
+.femailphone {
+	text-align: center;
 }
 
 .clearpos {

@@ -26,12 +26,12 @@
 					<div class="date">[% date.format(date.now, '%A, %e %B %Y', locale => 'ru_RU.UTF-8') %]</div>
 					<div class="social">
 						<ul>
-							[% IF h.config_site.twitter_enabled %]<li><a href="[% h.config_site.twitter_link %]"><img src="/img/user_default/twitter.png" /></a></li>[% END %]
-							[% IF h.config_site.facebook_enabled %]<li><a href="[% h.config_site.facebook_link %]"><img src="/img/user_default/facebook.png" /></a></li>[% END %]
+							[% IF h.config_site.twitter_username %][% tw = h.get_twitter_data %]<li><a href="https://twitter.com/[% tw.screen_name %]"><img src="/img/user_default/twitter.png" /></a></li>[% END %]
+							[% IF h.config_site.facebook_username %][% fb = h.get_facebook_data %]<li><a target="facebook" href="[% fb.link %]"><img src="/img/user_default/facebook.png" /></a></li>[% END %]
 							[% IF h.config_site.gplus_enabled %]<li><a href="[% h.config_site.gplus_link %]"><img src="/img/user_default/gplus.png" /></a></li>[% END %]
 						</ul>
 					</div>
-				</dir>
+				</div>
 				<div id="menu">
 					<ul id="main-menu" class="menu">
 						<li class="menu-item"><a href="/"><img src="/img/user_default/home.png" /></a></li>
@@ -46,23 +46,23 @@
 				[% h.content %]
 			</div>
 			<div id="right-sidebar" class="sidebar">
-				<div class="wrap">
-					[% IF h.config_site.facebook_enabled %]
+				<div class="wrap socialcnt">
+					[% IF h.config_site.facebook_username %]
 					<div class="facebook">
 						<div class="icon"><img src="/img/user_default/fb32_1.png" /></div>
 						<div class="cont">
-							<a target="_blank" href="[% h.config_site.facebook_link %]">12345</a>
+							<a target="_blank" href="[% fb.link %]">[% fb.likes %]</a>
 						</div>
 						<div class="text">Likes</div>
 					</div>
 					[% END %]
-					[% IF h.config_site.twitter_enabled %]
+					[% IF h.config_site.twitter_username %]
 					<div class="twitter">
 						<div class="icon"><img src="/img/user_default/twitter32_1.png" /></div>
 						<div class="cont">
-							<a target="_blank" href="[% h.config_site.twitter_link %]">12345</a>
+							<a target="_blank" href="https://twitter.com/[% tw.screen_name %]">[% tw.followers_count %]</a>
 						</div>
-						<div class="text">Likes</div>
+						<div class="text">Followers</div>
 					</div>
 					[% END %]
 				</div>
@@ -89,19 +89,17 @@
 			</div>
 			<div class="clearpos"></div>
 			<div id="footer">
-				<div class="cpyright">
-					© «[% h.config_site.name %]», [% h.config_site.install_year;
-					IF date.format( date.now, '%Y' ) != h.config_site.install_year %]-[% date.format( date.now, '%Y' ) %] г.[% END; 
-					IF h.config_site.phone %][% h.config_site.phone %]. [% END;
-					IF h.config_site.info_email %][% h.config_site.info_email %].[% END;
-					IF h.config_site.orphus_enabled %]
-						<div class="orphus">
-							<a href="http://orphus.ru" rel="nofollow" id="orphus" target="_blank">
-								<img alt="Система Orphus" src="/img/user_default/orphus.gif" border="0" width="95" height="15" style="margin-left:20px;" />
-							</a>
-						</div>
-					[% END %]
-				</div>
+				<div class="cpyright">© «[% h.config_site.name %]», [% h.config_site.install_year;
+					IF date.format( date.now, '%Y' ) != h.config_site.install_year %]-[% date.format( date.now, '%Y' ) %] [% END %]г.</div>
+				<div class="poweredby">margaritaCMS ©</div>
+				[% IF h.config_site.info_email || h.config_site.phone %]<div class="femailphone">[% h.config_site.info_email %]<br>[% h.config_site.phone %]</div>[% END;
+				IF h.config_site.orphus_enabled %]
+					<div class="orphus">
+						<a href="http://orphus.ru" rel="nofollow" id="orphus" target="_blank">
+							<img alt="Система Orphus" src="/img/user_default/orphus.gif" border="0" width="95" height="15" style="margin-left:20px;" />
+						</a>
+					</div>
+				[% END %]
 				<div style="position:absolute;left:-7000px">
 					[% h.config_site.counter_code_footer %]
 					[% IF h.config_site.orphus_enabled %]<script type="text/javascript" src="/js/orphus.js?[% h.mtime_static.js %]"></script>[% END %]
@@ -136,7 +134,7 @@
 
 [% IF 0 %]
 
-[% IF h.config_site.facebook_enabled %]
+[% IF h.config_site.facebook_username %]
 	<div id="fb-root"></div>
 	<script>(function(d, s, id) {
 		var js, fjs = d.getElementsByTagName(s)[0];

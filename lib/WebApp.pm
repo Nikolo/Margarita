@@ -187,7 +187,14 @@ sub startup {
 $self->app->log->warn( $self->session->{user_id}, $type );
 		return $ret;
 	});
-
+	$self->helper( get_facebook_data => sub {
+		my $self = shift;
+		return JSON::XS->new->utf8->decode(Mojo::UserAgent->new->get('https://graph.facebook.com/'.$self->config->{site}->{facebook_username})->res->body);
+	});
+	$self->helper( get_twitter_data => sub {
+		my $self = shift;
+		return JSON::XS->new->utf8->decode(Mojo::UserAgent->new->get('https://api.twitter.com/1/users/show.json?screen_name='.$self->config->{site}->{twitter_username})->res->body);
+	});
 	$self->helper( config_site => sub {	shift->config->{site} });
 	$self->helper( exist_layout_var => sub {
 		my $self = shift;
