@@ -9,7 +9,7 @@
 			[% ELSIF error == 1 %]
 				Для доступа к этой странице необходимо авторизоваться
 			[% ELSIF error == 2 %]
-				Неверный логин или пароль
+				Неверный логин или пароль! <a href="/auth/lostpassword/">Забыли пароль?</a>
 			[% END %]
 		</span>
 	[% END %]
@@ -17,7 +17,7 @@
 		<input type="hidden" name="back_url" value="[% back_url || h.param( 'back_url' ) %]">
 		<div class="login_email">
 			<label for="loginEnterToSite" class="labelPass">Логин</label>
-			<input name="login" type="text" title="Логин">
+			<input name="login" type="text" title="Логин" value="[% h.param('login')%]">
 		</div>
 		<div class="login_pass">
 			<label for="passwordEnterToSite" class="labelPass">Пароль</label>
@@ -27,9 +27,9 @@
 		<div class="login_submit">
 			<input class="input_submit" type="submit" value="Войти">
 		</div>
-		<div class="reg_or_rpass">
+<!--		<div class="reg_or_rpass">
 			<a href="/auth/register/">Зарегистрироваться</a> или 
 			<a href="/auth/lostpassword/">восстановить пароль</a>
-		</div>
+		</div>-->
 	</form>
 </div>
