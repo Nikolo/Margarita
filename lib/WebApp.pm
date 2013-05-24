@@ -187,7 +187,6 @@ sub startup {
 				order_by => [qw/position/]
 			}
 		)->all()];
-$self->app->log->warn( $self->session->{user_id}, $type );
 		return $ret;
 	});
 	$self->helper( get_facebook_data => sub {
