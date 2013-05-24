@@ -55,7 +55,11 @@ a:link {
 	color: #FFFFFF;
 }
 
-.facebook, .twitter {
+.socialcnt {
+	margin-bottom: 30px;
+}
+
+.facebook, .twitter, .vk, .gplus {
 	width: 107px;
 	height: 107px;
 	padding: 10px;
@@ -70,6 +74,11 @@ a:link {
 .twitter {
 	background: #59C8FF;
 	margin-left: 18px;
+}
+
+.vk {
+	background: #4E729A;
+	margin-right: 16px;
 }
 
 .cont {
@@ -158,7 +167,7 @@ a:link {
 	background-color: #359BED;
 	padding: 8px 12px;
 	color: #FFFFFF;
-	margin-bottom: 15px;
+	margin: 0 0 15px 0;
 }
 
 .sidebar .widget {

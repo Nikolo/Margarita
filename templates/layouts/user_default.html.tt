@@ -11,6 +11,7 @@
 		<meta property="og:description" content="На сайте «[% h.config_site.name %]» [% h.config_site.description %]"/>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+		<script src="http://vkontakte.ru/js/api/openapi.js" type="text/javascript"></script>
 		<link rel="stylesheet" type="text/css" media="all" href="/css/user_default/margarita.css?[% h.mtime_static.css %]" />
 		<link type="image/x-icon" rel="shortcut icon" href="/favicon.ico" />
 		<script src="/js/user_default/jq.common.js?[% h.mtime_static.js %]" type="text/javascript"></script>
@@ -19,6 +20,12 @@
 		[% IF h.config_site.ya_verification %]<meta name='yandex-verification' content='[% h.config_site.ya_verification %]' />[% END %]
 	</head>
 	<body>[% USE date %]
+		<script>
+			$(document).ready( function(){
+				VK.init({ apiId: 3666702 });
+				VK.Api.call('groups.getById',{gid: '[% h.config_site.vk_username %]', fields: "members_count"}, function(data) {if (data.response) {document.getElementById('gr_members_vk').innerHTML = data.response[0].members_count}});
+			});
+		</script>
 		<div id="container" class="n_container">
 			<div id="header">
 				<div class="wrap">
@@ -28,6 +35,7 @@
 						<ul>
 							[% IF h.config_site.twitter_username %][% tw = h.get_twitter_data %]<li><a href="https://twitter.com/[% tw.screen_name %]"><img src="/img/user_default/twitter.png" /></a></li>[% END %]
 							[% IF h.config_site.facebook_username %][% fb = h.get_facebook_data %]<li><a target="facebook" href="[% fb.link %]"><img src="/img/user_default/facebook.png" /></a></li>[% END %]
+							[% IF h.config_site.vk_username %]<li><a target="vk" href="http://vk.com/club[% h.config.vk_username %]"><img src="/img/user_default/vk.png" /></a></li>[% END %]
 							[% IF h.config_site.gplus_enabled %]<li><a href="[% h.config_site.gplus_link %]"><img src="/img/user_default/gplus.png" /></a></li>[% END %]
 						</ul>
 					</div>
@@ -59,6 +67,26 @@
 					[% IF h.config_site.twitter_username %]
 					<div class="twitter">
 						<div class="icon"><img src="/img/user_default/twitter32_1.png" /></div>
+						<div class="cont">
+							<a target="_blank" href="https://twitter.com/[% tw.screen_name %]">[% tw.followers_count %]</a>
+						</div>
+						<div class="text">Followers</div>
+					</div>
+					[% END %]
+				</div>
+				<div class="wrap socialcnt">
+					[% IF h.config_site.vk_username %]
+					<div class="vk">
+						<div class="icon"><img src="/img/user_default/vk32_1.png" /></div>
+						<div class="cont">
+							<a target="_blank" href="http://vk.com/club[% h.config_site.vk_username %]" id="gr_members_vk">...</a>
+						</div>
+						<div class="text">Участников</div>
+					</div>
+					[% END %]
+					[% IF h.config_site.gplus_username %]
+					<div class="twitter">
+						<div class="icon"><img src="/img/user_default/gplus32_1.png" /></div>
 						<div class="cont">
 							<a target="_blank" href="https://twitter.com/[% tw.screen_name %]">[% tw.followers_count %]</a>
 						</div>
