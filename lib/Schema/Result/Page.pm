@@ -15,6 +15,18 @@ use warnings;
 
 use base 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
+
+=over 4
+
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
+=back
+
+=cut
+
+__PACKAGE__->load_components("InflateColumn::DateTime");
+
 =head1 TABLE: C<pages>
 
 =cut
@@ -48,10 +60,11 @@ __PACKAGE__->table("pages");
   is_nullable: 1
   size: 250
 
-=head2 menu
+=head2 top_menu
 
-  data_type: 'integer'
-  is_nullable: 1
+  data_type: 'boolean'
+  default_value: false
+  is_nullable: 0
 
 =cut
 
@@ -69,8 +82,8 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 1, size => 50 },
   "title",
   { data_type => "varchar", is_nullable => 1, size => 250 },
-  "menu",
-  { data_type => "integer", is_nullable => 1 },
+  "top_menu",
+  { data_type => "boolean", default_value => \"false", is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -118,8 +131,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07033 @ 2013-03-16 15:11:10
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:F/PuEhzu4IGiFYD7WAj2Sg
+# Created by DBIx::Class::Schema::Loader v0.07033 @ 2013-04-13 23:03:05
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:shlaKihQD9NsAzkfh5/rjg
 
 __PACKAGE__->many_to_many(
    "grps" => "acls",

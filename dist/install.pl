@@ -42,6 +42,12 @@ sub get_param {
 
 sub info { print join "",$/x2,$_[0],$/ }
 
+my $gid = `id -g`;
+chomp $gid;
+info( "WARNING: you are not superuser!") if $gid;
+
+die "Please go to dist dir and run install script again" if $0 =~ m{/};
+
 info( "Database connection param for margarita:" );
 my $type_db = get_param( "What database have you", { default => "psql", possible => [qw/psql mysql/]} );
 my $dbhost = get_param( "DB host", { default => 'localhost' });
@@ -123,18 +129,18 @@ system( "cp margarita_setup.sql margarita_setup_tmp.sql" );
 my $SQL;
 open $SQL, ">> margarita_setup_tmp.sql";
 printf $SQL <<EOF_SQL;
-INSERT INTO users (id, email, activationid) VALUES (1, '$admin_email', 'firstlogin'); 
+INSERT INTO users (id, email, activationid) VALUES (nextval('users_id_seq'::regclass), '$admin_email', 'firstlogin'); 
 INSERT INTO grps (id, name, description) VALUES (0, 'unauthorized', 'Неавторизованные пользователи'); 
-INSERT INTO grps (id, name, description) VALUES (1, 'admin', 'Администраторы'); 
+INSERT INTO grps (id, name, description) VALUES (nextval('grps_id_seq'::regclass), 'admin', 'Администраторы'); 
 INSERT INTO pages (id, controller, action) VALUES (0, 'auth', 'activationlink'); 
-INSERT INTO pages (id, controller, action) VALUES (1, 'page', 'edit'); 
-INSERT INTO pages (id, controller, action) VALUES (2, 'page', 'upload'); 
-INSERT INTO pages (id, controller, action) VALUES (3, 'auth', 'login'); 
-INSERT INTO pages (id, controller, action) VALUES (4, 'auth', 'logout'); 
-INSERT INTO pages (id, controller, action) VALUES (5, 'user', 'welcome'); 
-INSERT INTO pages (id, controller, action) VALUES (6, 'page', 'list'); 
-INSERT INTO pages (id, controller, action) VALUES (7, 'admin', 'welcome'); 
-INSERT INTO pages (id, controller, action) VALUES (8, 'page', 'menu_delete'); 
+INSERT INTO pages (id, controller, action) VALUES (nextval('pages_id_seq'::regclass), 'page', 'edit'); 
+INSERT INTO pages (id, controller, action) VALUES (nextval('pages_id_seq'::regclass), 'page', 'upload'); 
+INSERT INTO pages (id, controller, action) VALUES (nextval('pages_id_seq'::regclass), 'auth', 'login'); 
+INSERT INTO pages (id, controller, action) VALUES (nextval('pages_id_seq'::regclass), 'auth', 'logout'); 
+INSERT INTO pages (id, controller, action) VALUES (nextval('pages_id_seq'::regclass), 'user', 'welcome'); 
+INSERT INTO pages (id, controller, action) VALUES (nextval('pages_id_seq'::regclass), 'page', 'list'); 
+INSERT INTO pages (id, controller, action) VALUES (nextval('pages_id_seq'::regclass), 'admin', 'welcome'); 
+INSERT INTO pages (id, controller, action) VALUES (nextval('pages_id_seq'::regclass), 'page', 'menu_delete'); 
 INSERT INTO acls (grp_id, page_id) VALUES (1,6); 
 INSERT INTO acls (grp_id, page_id) VALUES (1,1); 
 INSERT INTO acls (grp_id, page_id) VALUES (1,2); 
@@ -145,7 +151,7 @@ INSERT INTO acls (grp_id, page_id) VALUES (1,5);
 INSERT INTO acls (grp_id, page_id) VALUES (1,8); 
 INSERT INTO roles (user_id, grp_id) VALUES (1,1);
 INSERT INTO menu_types (id, name) VALUES (0, 'admin');
-INSERT INTO menu_types (id, name) VALUES (1, 'top');
+INSERT INTO menu_types (id, name) VALUES (nextval('menu_types_id_seq'::regclass), 'top');
 INSERT INTO menu (menu_type_id,page_id,name,position) VALUES (0,6,'Список страниц',1000);
 INSERT INTO menu (menu_type_id,page_id,name, position) VALUES (1,7,'Админка',1000);
 EOF_SQL
@@ -160,13 +166,6 @@ $cfg_file_name =~ s/\./_/g;
 info( "Create init script" );
 my $INIT;
 open $INIT, "> $path_to_init/$cfg_file_name";
-
-printf $INIT <<EOF_INIT;
-#!/bin/sh
-### BEGIN INIT INFO
-# Provides:          margaritaCMS
-# Required-Start:    \$local_fs \$remote_fs \$network \$syslog \$named
-open $INIT, "> $path_to_init/margarita";
 
 printf $INIT <<EOF_INIT;
 #!/bin/sh
@@ -191,7 +190,7 @@ test -f \$DAEMON || exit 0
 case "\$1" in
   start)
 	echo "Starting \$DESC: \$NAME"
-	[ -f $path_to_wrapper/margarita_wrapper.sh ] && $path_to_wrapper/margarita_wrapper.sh & 
+	[ -f $path_to_wrapper/${cfg_file_name}_wrapper.sh ] && $path_to_wrapper/${cfg_file_name}_wrapper.sh & 
 	;;
   stop)
 	echo "Stopping \$DESC: \$NAME"

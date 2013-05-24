@@ -15,6 +15,18 @@ use warnings;
 
 use base 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
+
+=over 4
+
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
+=back
+
+=cut
+
+__PACKAGE__->load_components("InflateColumn::DateTime");
+
 =head1 TABLE: C<users>
 
 =cut
@@ -190,8 +202,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07033 @ 2013-03-14 23:01:42
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ABDHSW7nOwXFN4wGivA5lw
+# Created by DBIx::Class::Schema::Loader v0.07033 @ 2013-04-13 23:03:05
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:B692VqVcP21jX4xBdnUtwA
 
 __PACKAGE__->many_to_many(
    "grps" => "roles",

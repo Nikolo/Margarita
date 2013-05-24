@@ -15,6 +15,18 @@ use warnings;
 
 use base 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
+
+=over 4
+
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
+=back
+
+=cut
+
+__PACKAGE__->load_components("InflateColumn::DateTime");
+
 =head1 TABLE: C<upload>
 
 =cut
@@ -55,7 +67,7 @@ __PACKAGE__->table("upload");
 =head2 obj_name
 
   data_type: 'enum'
-  extra: {custom_type_name => "uploadtype",list => ["pages"]}
+  extra: {custom_type_name => "uploadtype",list => ["menu"]}
   is_nullable: 1
 
 =head2 obj_id
@@ -96,7 +108,7 @@ __PACKAGE__->add_columns(
   "obj_name",
   {
     data_type => "enum",
-    extra => { custom_type_name => "uploadtype", list => ["pages"] },
+    extra => { custom_type_name => "uploadtype", list => ["menu"] },
     is_nullable => 1,
   },
   "obj_id",
@@ -108,8 +120,8 @@ __PACKAGE__->add_columns(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07033 @ 2013-03-14 23:01:42
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rq49DtBhRslMrDY+qBpmFA
+# Created by DBIx::Class::Schema::Loader v0.07033 @ 2013-04-13 23:03:05
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:0gShIDCU841hzGkRYBQSkw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
