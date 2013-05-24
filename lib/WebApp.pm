@@ -174,7 +174,10 @@ sub startup {
 		my $controller = shift;
 		my $ret = [$self->app->schema->resultset('Menu')->search(
 			{
-				"roles.user_id" => $self->session->{user_id}, 
+				'-or' => [
+					"roles.user_id" => $self->session->{user_id},
+					"grp.id" => 0,
+				],
 				'menu_type.name' => $type,
 				$controller ? ("page.controller" => $controller ) : ()
 			},

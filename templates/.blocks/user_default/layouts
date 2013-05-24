@@ -1,4 +1,16 @@
 [% BLOCK header %]
 [% END %]
 
-
+[% BLOCK addthis %]
+	[% IF h.config_site.addthis_id %]
+		<div id="addthis_button_block">
+		<ul>
+		<li><a class="addthis_button_vk"></a></li>
+		<li><a class="addthis_button_facebook"></a></li>
+		<li><a class="addthis_button_twitter"></a></li>
+		<li><a class="addthis_button_google_plusone_share"></a></li>
+		<li><a class="addthis_button_compact"></a></li>
+		</ul>
+		</div>
+	[% END %]
+[% END %]

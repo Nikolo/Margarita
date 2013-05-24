@@ -147,6 +147,23 @@ a:link {
 	background: #359BED;
 }
 
+#addthis_button_block ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	float: left;
+	list-style-type: none;
+	position: relative;
+	z-index: 99;
+}
+
+#addthis_button_block li {
+	position: relative;
+	float: left;
+	padding: 0px;
+	margin: 0px;
+	padding-left: 10px;
+}
 #footer {
 	border-top: 1px solid #EEEEEE;
 	padding-top: 10px;
