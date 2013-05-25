@@ -41,7 +41,7 @@
 		<div id="container" class="n_container">
 			<div id="header">
 				<div class="wrap">
-					<div class="logo"></div>
+					<div class="logo" style="font-size: 36px;"><span>Image</span><span style="color: #359BED;">MAKE</span></div>
 					<div class="date">[% date.format(date.now, '%A, %e %B %Y', locale => 'ru_RU.UTF-8') %]</div>
 					<div class="social">
 						<ul>

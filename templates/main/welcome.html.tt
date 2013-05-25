@@ -1,5 +1,5 @@
-[% h.layout_var( 'meta_title', 'MargaritaCMS - прогрессивная, инновационная система управления контентом' ) %]
-[% h.layout_var( 'meta_desc', 'На сайте MargaritaCMS собрана информация о установке, обновлению и использованию MargaritaCMS. А так же вы сможете ознакомиться со всеми плагинами и описаниям к ним.') %]
+[% h.layout_var( 'meta_title', 'Главная' ) %]
+[% h.layout_var( 'meta_desc', 'На сайте Image-make.ru вы сможете найти любую информацию о создании стиля.') %]
 <div class="main_vitr">
 </div>
 <div class="clear"></div>

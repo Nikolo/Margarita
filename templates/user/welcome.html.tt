@@ -1,407 +1,105 @@
-[% h.layout_var( 'meta_title','Личный кабинет пользователя ' _ user.email _' - АнализМаркет') %]
+[% h.layout_var( 'meta_title','Личный кабинет пользователя ' _ user.email ) %]
 [% h.layout_var( 'meta_desc','') %]
 
 [% PROCESS ".blocks/main" %]
 
 <script src="/js/chosen.jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-$(document).ready(function() {
-          $(".chzn-select").chosen();
-		  
-		 $('#user_form').on('change', '#b_d, #b_y, #b_m', function() {
-			if ($('#b_y').val() != '' && $('#b_m').val() != '' && $('#b_d').val() != '') {
-        $('#b_dd').val($('#b_y').val()+'-'+$('#b_m').val()+'-'+$('#b_d').val())
-		console.log('onchange: ' + $('#b_dd').val());
-		}
-		});
-		  
-		  })
+	$(document).ready(function() {
+		$(".chzn-select").chosen();	  
+		$('#user_form').on('change', '#b_d, #b_y, #b_m', function() {
+				if ($('#b_y').val() != '' && $('#b_m').val() != '' && $('#b_d').val() != '') {
+		$('#b_dd').val($('#b_y').val()+'-'+$('#b_m').val()+'-'+$('#b_d').val())
+			console.log('onchange: ' + $('#b_dd').val());
+			}
+		});	  
+	})
 </script>
 <link rel="stylesheet" type="text/css" media="all" href="/css/chosen.css" />
-
 <div class="anan_tabs">
-<div class="an_tab a_act">Мой профиль</div>
-[% IF user.owner_network %]
-<div class="an_tab"><a href="/lab/edit/">Моя Лаборатория</a></div>
-[% ELSE %]
-<div class="an_tab"><a href="/user/history">История заказов</a></div>
-[% END %]
-<!--<div class="an_tab"><a href="#">Результаты анализов</a></div>-->
+	<div class="an_tab a_act">Мой профиль</div>
 </div>
 <div class="clear"></div>
 <div class="analiz_content">
-<div class="ann_left">
-<div class="ann_ix">
-<h2>[% user.first_name %] [% user.last_name %]</h2>
-<div class="left_list c_i">
-<i></i><a href="/user/">Личные данные</a>
-</div>
-<!--<div class="left_list c_i">
-<i></i><a href="#">Персональные медицинские данные</a>
-</div>-->
-
-[% FOREACH gr = user.grps %]
-	[% NEXT IF gr.name == 'users' %]
-	[% FOREACH pg = gr.pages %]
-		[% NEXT IF ex.$pg || !pg.menu_name %]
-		[% ex.$pg = 1 %]
-		<div class="left_list c_i"><i></i><a href="/[% pg.controller _ '/' _ pg.action %]">[% pg.menu_name %]</a></div>
-	[% END %]
-[% END %]
-</div>
-</div>
-
-
-<div class="about_us acc_det">
-<h1>Личные данные</h1>
-<form id="user_form" method="POST">
-<div class="main_info">
-<div class="field_body"><b>Фамилия:</b><div class="acc_input"><input autocomplete="off" name="last_name" type="text" value="[% user.last_name %]" /></div></div>
-<div class="field_body"><b>Имя:</b><div class="acc_input"><input autocomplete="off" name="first_name" type="text" value="[% user.first_name %]" /></div></div>
-<div class="field_body"><b>Адрес электронной почты:</b><div class="acc_input"><input autocomplete="off" name="email" type="text" value="[% user.email %]" disabled="disabled" /></div><label class="check_b"><i></i><input type="checkbox" [% IF user.not_receive_mailer == 1 %]checked="checked"[% END %] name="mailer" value="1">Не хочу получать письма </label></div>
-<div class="field_body"><b>Промо-код:</b><div class="acc_input"><input autocomplete="off" name="code" type="text" value="[% user.code %]" /></div></div>
-
-
-</div>
-<div class="clear"></div>
-<div class="geo_info">
-<div class="field_body"><b>Страна:</b>
-
-
-
-[% contries = [ 'Абхазия',
-'Австралия',
-'Австрия',
-'Азербайджан',
-'Албания',
-'Алжир',
-'Американская Самоа',
-'Американские виргинские о-ва',
-'Ангилья ',
-'Ангола',
-'Андорра ',
-'Антигуа и Барбуда',
-'Антильские острова',
-'Аргентина',
-'Армения',
-'Аруба ',
-'Афганистан',
-'Багамские острова',
-'Бангладеш',
-'Барбадос ',
-'Бахрейн ',
-'Бейкер остров',
-'Беларусь',
-'Белиз ',
-'Бельгия ',
-'Бенин ',
-'Бермуда',
-'Болгария ',
-'Боливия ',
-'Босния и Герцеговина',
-'Ботсвана ',
-'Боувет остров',
-'Бразилия',
-'Британские Виргинские острова',
-'Бруней ',
-'Буркина Фасо',
-'Бурунди ',
-'Бутан ',
-'Вануату ',
-'Великобритания ',
-'Венгрия ',
-'Венесуэла',
-'Вестбанк',
-'Вьетнам ',
-'Габон ',
-'Гаити ',
-'Гайана ',
-'Гамбия ',
-'Гана',
-'Гваделупа',
-'Гватемала ',
-'Гвинея ',
-'Гвинея Бисау',
-'Герда и МакДональда острова',
-'Германия',
-'Гернси ',
-'Гибралтар',
-'Глариосовы острова',
-'Гондурас',
-'Гренада ',
-'Гренландия ',
-'Греция ',
-'Грузия',
-'Гуам ',
-'Дания ',
-'Джан Майен остров',
-'Джарвис остров',
-'Джерси остров',
-'Джибути ',
-'Джонсона атолл',
-'Джуан де Нова',
-'Доминика',
-'Доминиканская Республика',
-'Египет ',
-'Замбия ',
-'Западная Сахара',
-'Западное Самоа',
-'Зеленый мыс',
-'Зимбабве ',
-'Израиль ',
-'Индия',
-'Индонезия ',
-'Иордания',
-'Ирак',
-'Иран',
-'Ирландия ',
-'Исландия ',
-'Испания',
-'Италия ',
-'Йемен ',
-'Казахстан',
-'Каймановы острова',
-'Камбоджа',
-'Камерун ',
-'Канада ',
-'Катар',
-'Кения',
-'Кипр',
-'Кирибати',
-'Китай ',
-'КНДР',
-'Кокосовые острова',
-'Колумбия ',
-'Коморские острова',
-'Конго ',
-'Конго Демократическая республика ',
-'Корея республика',
-'Коста-Рика',
-'Кот-д Ивуар',
-'Куба ',
-'Кувейт',
-'Кука острова',
-'Кыргызстан',
-'Лаос',
-'Латвия',
-'Лесото ',
-'Либерия',
-'Ливан',
-'Ливия ',
-'Литва',
-'Лихтенштейн ',
-'Люксембург ',
-'Маврикий ',
-'Мавритания ',
-'Мадагаскар',
-'Майотте',
-'Макао',
-'Македония ',
-'Малави ',
-'Малайзия ',
-'Мали ',
-'Мальдивы ',
-'Мальта',
-'Марокко ',
-'Мартиника',
-'Маршалловы острова',
-'Мексика ',
-'Мидуэй атолл  ',
-'Мозамбик',
-'Молдова',
-'Монако ',
-'Монголия ',
-'Монтсеррат ',
-'Мьянма',
-'Мэн остров',
-'Намибия',
-'Науру',
-'Непал ',
-'Нигер ',
-'Нигерия ',
-'Нидерланды ',
-'Никарагуа',
-'Ниуэ ',
-'Новая Зеландия',
-'Новая Каледония',
-'Норвегия ',
-'Норфолк остров',
-'ОАЭ',
-'Объединенные штаты Микронезия',
-'Оман ',
-'Пакистан ',
-'Панама ',
-'Папуа-Новая Гвинея',
-'Парагвай',
-'Парасельские острова',
-'Перу ',
-'Питкэрн остров',
-'Польша ',
-'Португалия ',
-'Пуэрто-Рико',
-'Республика Палау',
-'Реюнион',
-'Рождества остров',
-'Россия',
-'Руанда',
-'Румыния',
-'Сальвадор',
-'Сан-Марино',
-'Сан-Томе и Принсипи',
-'Саудовская Аравия',
-'Св. Елены острова',
-'Свазиленд ',
-'Свалбард ',
-'Северные Марианские острова',
-'Сейшельские острова',
-'Сектор Газа',
-'Сенегал',
-'Сен-Пьер и Микелон',
-'Сент Винсент ',
-'Сент Китс и Невис',
-'Сент-Люсия',
-'Сербия',
-'Сиерра Леоне',
-'Сингапур ',
-'Сирия ',
-'Словакия ',
-'Словения ',
-'Соломановы острова',
-'Сомали ',
-'Спратли острова',
-'Судан ',
-'Суринам',
-'США',
-'Таджикистан',
-'Таиланд ',
-'Тайвань',
-'Танзания ',
-'Теркс и Кайкос острова',
-'Того ',
-'Токелау ',
-'Тонга ',
-'Тринидад и Тобаго',
-'Тувалу ',
-'Тунис ',
-'Туркменистан',
-'Турция ',
-'Уганда ',
-'Узбекистан',
-'Украина',
-'Уругвай ',
-'Уэйк атолл',
-'Фаерое острова',
-'Фиджи ',
-'Филиппины ',
-'Финляндия ',
-'Фолклендские острова',
-'Франция',
-'Французская Гвиана ',
-'Французская полинезия',
-'Хауленд острова',
-'Хорватия ',
-'Центральноафриканская Республика',
-'Чад ',
-'Черногория ',
-'Чехия',
-'Чили ',
-'Швейцария ',
-'Швеция ',
-'Шри-Ланка',
-'Эквадор ',
-'Экваториальная Гвинея',
-'Эллис и Футуна острова',
-'Эритрея',
-'Эстония',
-'Эфиопия ',
-'ЮАР',
-'Южная Георгия',
-'Южная Осетия',
-'Южные и Антарктические Острова',
-'Ямайка',
-'Япония' ]
-%]
-
- <select name="country" data-placeholder="Выберите..." class="chzn-select" style="width:340px;" tabindex="2">
- <option value=""></option>
-[% FOREACH s IN contries %]
-<option [% IF user.country == s %]selected="selected"[% END %] value="[% s %]">[% s %]</option>
-[% END %]
-</select>
-
-
-</div>
-<div class="field_body"><b>Адрес:</b>
-<div class="acc_input"><input autocomplete="off" name="city" type="text" value="[% user.city %]" /></div>
-</div>
-<!--<div class="field_body field_100"><b>Ближайший адрес:</b><div class="acc_input"><input autocomplete="off" name="email" type="text" /></div></div>-->
-
-
-</div>
-<div class="age_npass">
-<div class="field_body"><b>Пол:</b>
-
-<select name="sex" data-placeholder="Выберите..." class="chzn-select" style="width:340px;" tabindex="2"><option value=""></option>
-<option [% IF user.sex == 'm' %]selected="selected"[% END %] value="m">Мужской</option><option [% IF user.sex == 'f' %]selected="selected"[% END %] value="f">Женский</option></select>
-</div>
-
-
-
-
-
-<div class="field_body mfil"><b>Дата рождения:</b>
-
-[% d_y = [ 1900 .. 2004 ] %]
-[% d_m = [
-'Январь',
-'Февраль',
-'Март',
-'Апрель',
-'Май',
-'Июнь',
-'Июль',
-'Август',
-'Сентябрь',
-'Октябрь',
-'Ноябрь',
-'Декабрь'
-   ] %]
-[% d_d = [ 1 .. 31 ] %]        
-[% i = 0 %]
-<select id="b_d"  data-placeholder="День" class="chzn-select" style="width:80px;" tabindex="2">
-<option value=""></option>
-[% FOREACH c IN d_d %]
-   <option [% IF user.birth_date.day == c %]selected="selected"[% END %] value="[% c %]">[% c %]</option>
-[% END %]
-</select><select id="b_m" data-placeholder="Месяц" class="chzn-select" style="width:150px;" tabindex="2">
-<option value=""></option>
-[% FOREACH month IN d_m %]
-[% i = i+1 %]
-     <option [% IF user.birth_date.month == i %]selected="selected"[% END %] value="[% i %]">[% month %]</option>
-[% END %]
-</select><select id="b_y" data-placeholder="Год" class="chzn-select" style="width:90px;" tabindex="2">
-<option value=""></option>
-[% FOREACH c IN d_y %]
-   <option [% IF user.birth_date.year == c %]selected="selected"[% END %] value="[% c %]">[% c %]</option>
-[% END %]
-</select>
-</div>
-<input type="hidden" id="b_dd" name="birth_date" value="[% IF user.birth_date.year.defined && user.birth_date.month.defined && user.birth_date.day.defined %][% user.birth_date.year %]-[% user.birth_date.month %]-[% user.birth_date.day %][% END %]">
-<div class="clear"></div>
-<div class="pass_attention">
-<div class="pass_attention_txt">[% IF !user.password %]Придумайте пароль для вашего аккаунта[% ELSE %]Заполните поля, чтобы сменить пароль[% END %]</div>
-<div class="field_body" style="width:325px;margin-right:25px;"><b>Новый пароль:</b><div class="acc_input"><input autocomplete="off" name="pass" type="password" /></div></div>
-<div class="field_body" style="width:325px;margin-right:0px;"><b>Повторите новый пароль:</b><div class="acc_input"><input autocomplete="off" name="re_pass" type="password" /></div></div>
-<div class="clear"></div>
-</div>
-<input type="hidden" name="back_url" value="[% back_url %]" />
-</div>
-</form>
-<div class="clear"></div>
-<div class="save_b">
-<div class="save_button">Сохранить</div>
-</div>
-<div class="clear"></div>
+	<div class="ann_left">
+		<div class="ann_ix">
+			<h2>[% user.first_name %] [% user.last_name %]</h2>
+			[% FOREACH gr = user.grps %]
+				[% NEXT IF gr.name == 'users' %]
+				[% FOREACH pg = gr.pages %]
+					[% NEXT IF ex.$pg || !pg.menu_name %]
+					[% ex.$pg = 1 %]
+					<div class="left_list c_i"><i></i><a href="/[% pg.controller _ '/' _ pg.action %]">[% pg.menu_name %]</a></div>
+				[% END %]
+			[% END %]
+		</div>
+	</div>
+	<h1>Личные данные</h1>
+	<div class="form_block">
+		<form id="user_form" method="POST">
+			<div class="main_info">
+				<label>Фамилия:</label><div class="acc_input"><input class="text" autocomplete="off" name="last_name" type="text" value="[% user.last_name %]" /></div>
+				<label>Имя:</label><div class="acc_input"><input class="text" autocomplete="off" name="first_name" type="text" value="[% user.first_name %]" /></div>
+				<label>Адрес электронной почты:</label><div class="acc_input"><input class="text" autocomplete="off" name="email" type="text" value="[% user.email %]" disabled="disabled" /></div>
+				<label class="check_b"><input type="checkbox" [% IF user.not_receive_mailer == 1 %]checked="checked"[% END %] name="mailer" value="1">Не хочу получать письма </label>
+			</div>
+			<div class="geo_info">
+				<label>Страна:</label>
+				<div class="acc_input">
+					<select name="country" data-placeholder="Выберите..." tabindex="2">
+						<option value=""></option>
+						[% FOREACH s IN contries %]
+							<option [% IF user.country == s %]selected="selected"[% END %] value="[% s %]">[% s %]</option>
+						[% END %]
+					</select>
+				</div>
+				<div class="field_body"><label>Адрес:</label>
+					<div class="acc_input"><input class="text" autocomplete="off" name="city" type="text" value="[% user.city %]" /></div>
+				</div>
+			</div>
+			<div class="age_npass">
+				<label>Пол:</label>
+				<div class="acc_input">
+					<select name="sex" data-placeholder="Выберите..." class="" tabindex="2">
+						<option value=""></option>
+						<option [% IF user.sex == 'm' %]selected="selected"[% END %] value="m">Мужской</option>
+						<option [% IF user.sex == 'f' %]selected="selected"[% END %] value="f">Женский</option>
+					</select>
+				</div>
+				<div class="field_body mfil"><label>Дата рождения:</label>
+					<select id="b_d"  data-placeholder="День" class="" style="width:80px;" tabindex="2">
+						<option value=""></option>
+						[% FOREACH c IN d_d %]
+							<option [% IF user.birth_date.day == c %]selected="selected"[% END %] value="[% c %]">[% c %]</option>
+						[% END %]
+					</select>
+					<select id="b_m" data-placeholder="Месяц" class="" style="width:150px;" tabindex="2">
+						<option value=""></option>
+						[% i = 0 %]
+						[% FOREACH month IN d_m %]
+							[% i = i+1 %]
+							 <option [% IF user.birth_date.month == i %]selected="selected"[% END %] value="[% i %]">[% month %]</option>
+						[% END %]
+					</select>
+					<select id="b_y" data-placeholder="Год" class="" style="width:90px;" tabindex="2">
+						<option value=""></option>
+						[% FOREACH c IN d_y %]
+							<option [% IF user.birth_date.year == c %]selected="selected"[% END %] value="[% c %]">[% c %]</option>
+						[% END %]
+					</select>
+				</div>
+				<input type="hidden" id="b_dd" name="birth_date" value="[% IF user.birth_date.year.defined && user.birth_date.month.defined && user.birth_date.day.defined %][% user.birth_date.year %]-[% user.birth_date.month %]-[% user.birth_date.day %][% END %]">
+				<div class="clear"></div>
+				<div class="pass_attention">
+					<div class="field_body"><label>Новый пароль:<span class="label_info">[% IF !user.password %]Придумайте пароль для вашего аккаунта[% ELSE %]Заполните поля, чтобы сменить пароль[% END %]</span></label><div class="acc_input"><input class="text" autocomplete="off" name="pass" type="password" /></div></div>
+					<div class="field_body"><label>Повторите новый пароль:</label><div class="acc_input"><input class="text" autocomplete="off" name="re_pass" type="password" /></div>
+				</div>
+				<input type="submit" class="input_submit" value="Сохранить">
+			</div>
+			<input type="hidden" name="back_url" value="[% back_url %]" />
+		</div>
+	</form>
+	<div class="clear"></div>
 </div>
 <div class="clear"></div>
 </div>

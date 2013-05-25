@@ -141,7 +141,9 @@ INSERT INTO pages (id, controller, action) VALUES (nextval('pages_id_seq'::regcl
 INSERT INTO pages (id, controller, action) VALUES (nextval('pages_id_seq'::regclass), 'page', 'list'); 
 INSERT INTO pages (id, controller, action) VALUES (nextval('pages_id_seq'::regclass), 'admin', 'welcome'); 
 INSERT INTO pages (id, controller, action) VALUES (nextval('pages_id_seq'::regclass), 'page', 'menu_delete'); 
+INSERT INTO pages (id, controller, action) VALUES (nextval('pages_id_seq'::regclass), 'auth', 'logstpassword'); 
 INSERT INTO acls (grp_id, page_id) VALUES (1,6); 
+INSERT INTO acls (grp_id, page_id) VALUES (1,7); 
 INSERT INTO acls (grp_id, page_id) VALUES (1,1); 
 INSERT INTO acls (grp_id, page_id) VALUES (1,2); 
 INSERT INTO acls (grp_id, page_id) VALUES (0,3); 
@@ -149,6 +151,7 @@ INSERT INTO acls (grp_id, page_id) VALUES (0,4);
 INSERT INTO acls (grp_id, page_id) VALUES (0,0); 
 INSERT INTO acls (grp_id, page_id) VALUES (1,5); 
 INSERT INTO acls (grp_id, page_id) VALUES (1,8); 
+INSERT INTO acls (grp_id, page_id) VALUES (1,9); 
 INSERT INTO roles (user_id, grp_id) VALUES (1,1);
 INSERT INTO menu_types (id, name) VALUES (0, 'admin');
 INSERT INTO menu_types (id, name) VALUES (nextval('menu_types_id_seq'::regclass), 'top');
@@ -194,7 +197,7 @@ case "\$1" in
 	;;
   stop)
 	echo "Stopping \$DESC: \$NAME"
-	kill `ps ax | grep margarita_wrapper | grep -v grep | awk '{print \$1}'` >> /dev/null 2>&1
+	kill `ps ax | grep ${cfg_file_name}_wrapper | grep -v grep | awk '{print \$1}'` >> /dev/null 2>&1
 	if [ -f "\$PIDFILE" ]; then
 		PID=`cat \$PIDFILE`;
 		kill \$PID >> /dev/null 2>&1
