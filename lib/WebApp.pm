@@ -10,6 +10,7 @@ use ExtLog;
 use Cache::Memcached::Fast;
 use Storable;
 use IO::Dir;
+use lib $FindBin::Bin.'/../lib/WebApp/Plugins';
 
 has schema => sub {
 	my $self = shift;
@@ -81,7 +82,7 @@ sub startup {
 		$ret->{$_->controller}->{$_->action} = 1;
 	}
 	foreach my $coll (keys %$ret){
-		my $pm = $path_to_template.'/../lib/WebApp/'.ucfirst($coll).'.pm';
+		my $pm = $path_to_template.'/../lib/WebApp/'.ucfirst($coll).'.pm'||$path_to_template.'/../lib/WebApp/Plugins/'.ucfirst($coll).'.pm';
 		next unless -f $pm;
 		my $FH;
 		open( $FH, "<", $pm );
@@ -111,19 +112,22 @@ sub startup {
 			}
 		}
 	}
-	$dirs_main = IO::Dir->new( $path_to_template.'/../lib/WebApp/' );
-	foreach my $pms ( grep { $_ =~ /\.pm$/ && -f $path_to_template.'/../lib/WebApp/'.$_ } $dirs_main->read()){
-		my $FH;
-		open( $FH, "<", $path_to_template.'/../lib/WebApp/'.$pms);
-		$pms = lc($pms);
-		$pms =~ s/\.pm$//;
-		my $need_list = 0;
-		while( <$FH> ){
-			$need_list = 1 if /^use base.*WebApp::Controller/;
-			next if $pms =~ /layouts|\.mail/;
-			$self->app->schema->resultset('Page')->new({controller => $pms, action => $1})->insert() if $need_list && /sub\s+([^_].*?)(?:\s*{|$)/ && !$self->app->schema->resultset('Page')->find({controller => $pms, action => $1});
+	foreach my $paths (qw{/../lib/WebApp/ /../lib/WebApp/Plugins/}){
+warn $path_to_template.$paths;
+		$dirs_main = IO::Dir->new( $path_to_template.$paths );
+		foreach my $pms ( grep { $_ =~ /\.pm$/ && -f $path_to_template.$paths.$_ } $dirs_main->read()){
+			my $FH;
+			open( $FH, "<", $path_to_template.$paths.$pms);
+			$pms = lc($pms);
+			$pms =~ s/\.pm$//;
+			my $need_list = 0;
+			while( <$FH> ){
+				$need_list = 1 if /^use base.*WebApp::Controller/;
+				next if $pms =~ /layouts|\.mail/;
+				$self->app->schema->resultset('Page')->new({controller => $pms, action => $1})->insert() if $need_list && /sub\s+([^_].*?)(?:\s*{|$)/ && !$self->app->schema->resultset('Page')->find({controller => $pms, action => $1});
+			}
+			close( $FH );
 		}
-		close( $FH );
 	}
 
 	$self->helper( mtime_static => sub { $max_t });
