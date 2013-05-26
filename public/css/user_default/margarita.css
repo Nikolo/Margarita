@@ -3,6 +3,10 @@ body {
 	font-family: "Open Sans","Tahoma","Verdana","Arial", sans-serif;
 }
 
+img {
+	border:0px;
+}
+
 h3 {
 	font-size: 16px;
 	font-weight: 600;

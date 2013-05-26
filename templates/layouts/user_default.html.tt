@@ -41,8 +41,8 @@
 		<div id="container" class="n_container">
 			<div id="header">
 				<div class="wrap">
-					<div class="logo" style="font-size: 36px;"><span>Image</span><span style="color: #359BED;">MAKE</span></div>
-					<div class="date">[% date.format(date.now, '%A, %e %B %Y', locale => 'ru_RU.UTF-8') %]</div>
+					<div class="logo" style="font-size: 36px;"><span>Image</span><span style="color: #359BED;font-weight: bold;">MAKE</span></div>
+					<div class="date">[% USE Encode method = '_utf8_on' %][% FILTER $Encode %][% date.format(date.now, '%A, %e %B %Y', locale => 'ru_RU.UTF-8') %][% END %]</div>
 					<div class="social">
 						<ul>
 							[% IF h.config_site.twitter_username %][% tw = h.get_twitter_data %]<li><a href="https://twitter.com/[% tw.screen_name %]"><img src="/img/user_default/twitter.png" /></a></li>[% END %]

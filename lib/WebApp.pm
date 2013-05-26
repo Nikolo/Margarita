@@ -52,6 +52,9 @@ sub tt_param {
 		COMPILE_DIR  => $self->config->{template}->{COMPILE_DIR}||'/tmp/margarita_tt',
 		COMPILE_EXT  => $self->config->{template}->{COMPILE_EXT}||'.ttc',
 		ENCODING     => $self->config->{template}->{ENCODING}||'utf8',
+		PLUGINS	     => {
+			Encode => 'Template::Filter::Encode',
+		},
 	}
 }
 
