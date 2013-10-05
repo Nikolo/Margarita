@@ -1,8 +1,9 @@
 [% PROCESS ".blocks/layouts" %]
+[% h.layout_var('layout_path', 'portfolio') %]
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		[% PROCESS header %]
+	[% PROCESS header %]
 	</head>
 	<body>[% USE date %]
 		<script>
@@ -32,11 +33,29 @@
 			[% END %]
 			});
 		</script>
-<div id="header">
-</div>
+		<div id="header" class="bothlined">
+			<div id="logo"></div>
+			<div id="logoright">
+				<div class="headertext">[% h.config_site.headertext1 %]</div>
+				<div class="headertext">[% h.config_site.headertext2 %]</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="menu" class="bothlined">
+			<ul id="main-menu" class="menu">
+				[% FOREACH item = h.menu_items( 'top' ) %]
+					<li class="menu-item"><a class="[% IF item.page.controller == controller && item.page.action == action %]active[% END %]" href="/[% item.page.controller %]/[% item.page.action %]">[% item.name %]</a></li>
+				[% END %]
+			</ul>
+		</div>
+		<div id="clear"></div>
+		<div id="container" class="n_container">
+			<div id="venztop" class="venz"></div>
+			<div id="content">[% h.content %]</div>
+			<div id="venzbottom" class="venz"></div>
+		</div>
 <!--
-<div id="container" class="n_container">
-			<div id="header">
+<div id="header">
 				<div class="wrap">
 					<div class="logo" style="font-size: 36px;"><span>Image</span><span style="color: #359BED;font-weight: bold;">MAKE</span></div>
 					<div class="date">[% USE Encode method = '_utf8_on' %][% FILTER $Encode %][% date.format(date.now, '%A, %e %B %Y', locale => 'ru_RU.UTF-8') %][% END %]</div>
@@ -125,6 +144,7 @@
 				</div>
 			</div>
 			<div class="clearpos"></div>
+-->
 			<div id="footer">
 				<div class="cpyright">© «[% h.config_site.name %]», [% h.config_site.install_year;
 					IF date.format( date.now, '%Y' ) != h.config_site.install_year %]-[% date.format( date.now, '%Y' ) %] [% END %]г.</div>
@@ -166,6 +186,5 @@
 				</div>
 			</div>
 		</div>
--->
 </body>
 </html>

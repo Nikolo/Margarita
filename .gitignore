@@ -3,7 +3,6 @@ margarita.cfg
 /script/hypnotoad.pid
 /lib/Plugins/WebApp/*.pm
 /lib/Schema.pm
-/lib/Schema
 /plugins/templates
 /public/css/plugins/
 /public/js/plugins/

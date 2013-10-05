@@ -1,6 +1,4 @@
 [% BLOCK header %]
-[% layout %]
-
 <title>[% h.layout_var( 'meta_title' ) %] - [% h.config_site.name %]</title>
 	<meta name="description" content="[% h.layout_var( 'meta_desc' ) %]">
 	[% IF h.exist_layout_var( 'keys' ) %]<meta name="keywords" content="[% h.layout_var( 'keys' ) %]" />[% END %]
@@ -20,21 +18,21 @@
 	[% END %]
 	[% IF h.exist_layout_var( 'css' ) %]
 		[% FOREACH css = h.layout_var( 'css' ) %]
-			<link rel="stylesheet" type="text/css" media="all" href="/css/plugins/user_default/[% css %]?[% h.mtime_static.css %]" />
+			<link rel="stylesheet" type="text/css" media="all" href="/css/plugins/[% h.layout_var('layout_path') %]/[% css %]?[% h.mtime_static.css %]" />
 		[% END %]
 	[% END %]
 	[% IF h.exist_layout_var( 'js' ) %]
 		[% FOREACH js = h.layout_var( 'js' ) %]
-			<script src="/js/plugins/user_default/[% js %]?[% h.mtime_static.js %]" type="text/javascript"></script>
+			<script src="/js/plugins/[% h.layout_var('layout_path') %]/[% js %]?[% h.mtime_static.js %]" type="text/javascript"></script>
 		[% END %]
 	[% END %]
-	<link rel="stylesheet" type="text/css" media="all" href="/css/user_default/margarita.css?[% h.mtime_static.css %]" />
+	<link rel="stylesheet" type="text/css" media="all" href="/css/[% h.layout_var('layout_path') %]/margarita.css?[% h.mtime_static.css %]" />
 	<link type="image/x-icon" rel="shortcut icon" href="/favicon.ico" />
 	[% IF h.config_site.addthis_id %]
 		<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js"></script>
 	[% END %]
-	<!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="all" href="/css/user_default/margarita-ie.css?[% h.mtime_static.css %]" /><![endif]-->
-	<!--[if IE 8]><link rel="stylesheet" type="text/css" media="all" href="/css/user_default/margarita-ie8.css?[% h.mtime_static.css %]" /><![endif]-->
+	<!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="all" href="/css/[% h.layout_var('layout_path') %]/margarita-ie.css?[% h.mtime_static.css %]" /><![endif]-->
+	<!--[if IE 8]><link rel="stylesheet" type="text/css" media="all" href="/css/[% h.layout_var('layout_path') %]/margarita-ie8.css?[% h.mtime_static.css %]" /><![endif]-->
 	[% IF h.config_site.ya_verification %]<meta name='yandex-verification' content='[% h.config_site.ya_verification %]' />[% END %]
 [% END %]
 
