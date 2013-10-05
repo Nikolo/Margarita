@@ -10,7 +10,7 @@ use ExtLog;
 use Cache::Memcached::Fast;
 use Storable;
 use IO::Dir;
-use lib $FindBin::Bin.'/../lib/WebApp/Plugins';
+use lib $FindBin::Bin.'/../lib/Plugins';
 
 has schema => sub {
 	my $self = shift;
@@ -49,7 +49,7 @@ has mtt => sub {
 sub tt_param {
 	my $self = shift;
 	return {
-		INCLUDE_PATH => $self->config->{template}->{INCLUDE_PATH}||$FindBin::Bin.'/../templates/',
+		INCLUDE_PATH => [$self->config->{template}->{INCLUDE_PATH}||$FindBin::Bin.'/../templates/', $FindBin::Bin.'/../plugins/templates/' ],
 		COMPILE_DIR  => $self->config->{template}->{COMPILE_DIR}||'/tmp/margarita_tt',
 		COMPILE_EXT  => $self->config->{template}->{COMPILE_EXT}||'.ttc',
 		ENCODING     => $self->config->{template}->{ENCODING}||'utf8',
@@ -82,7 +82,8 @@ sub startup {
 		$ret->{$_->controller}->{$_->action} = 1;
 	}
 	foreach my $coll (keys %$ret){
-		my $pm = $path_to_template.'/../lib/WebApp/'.ucfirst($coll).'.pm'||$path_to_template.'/../lib/WebApp/Plugins/'.ucfirst($coll).'.pm';
+		my $pm = $path_to_template.'/../lib/WebApp/'.ucfirst($coll).'.pm';
+		$pm = $path_to_template.'/../lib/Plugins/WebApp/'.ucfirst($coll).'.pm' unless -f $pm;
 		next unless -f $pm;
 		my $FH;
 		open( $FH, "<", $pm );
@@ -96,6 +97,7 @@ sub startup {
 		foreach my $act (%{$ret->{$coll}}){
 			foreach ($self->app->schema->resultset('Page')->search( {controller => $coll, action => $act||''} )->all()){
 				$_->acls->delete();
+				$_->menus->delete();
 				$_->delete();
 			}
 		}
@@ -112,7 +114,7 @@ sub startup {
 			}
 		}
 	}
-	foreach my $paths (qw{/../lib/WebApp/ /../lib/WebApp/Plugins/}){
+	foreach my $paths (qw{/../lib/WebApp/ /../lib/Plugins/WebApp/}){
 warn $path_to_template.$paths;
 		$dirs_main = IO::Dir->new( $path_to_template.$paths );
 		foreach my $pms ( grep { $_ =~ /\.pm$/ && -f $path_to_template.$paths.$_ } $dirs_main->read()){
@@ -128,6 +130,15 @@ warn $path_to_template.$paths;
 			}
 			close( $FH );
 		}
+	}
+
+	$dirs_main = IO::Dir->new( $path_to_template.'/../lib/Plugins/WebApp/' );
+	foreach my $pms ( grep { $_ =~ /Helper\.pm$/ && -f $path_to_template.'/../lib/Plugins/WebApp/'.$_ } $dirs_main->read()){
+		my $module = 'WebApp::'.$pms;
+		$module =~ s/\.pm$//;
+		eval "use $module";
+		die $@ if $@;
+		$module->startup( $self );
 	}
 
 	$self->helper( mtime_static => sub { $max_t });
@@ -202,7 +213,9 @@ warn $path_to_template.$paths;
 	});
 	$self->helper( get_twitter_data => sub {
 		my $self = shift;
-		return JSON::XS->new->utf8->decode(Mojo::UserAgent->new->get('https://api.twitter.com/1/users/show.json?screen_name='.$self->config->{site}->{twitter_username})->res->body);
+		my $ua = Mojo::UserAgent->new();
+		my $token = JSON::XS->new->utf8->decode($ua->post('https://'.$self->config->{site}->{twitter_key}.':'.$self->config->{site}->{twitter_secret}.'@api.twitter.com/oauth2/token', {'Content-Type' => 'application/x-www-form-urlencoded;charset=UTF-8'}, 'grant_type=client_credentials')->res->body);
+		return JSON::XS->new->utf8->decode($ua->get('https://api.twitter.com/1.1/users/show.json?screen_name='.$self->config->{site}->{twitter_username}, {Authorization => "Bearer ".$token->{access_token}})->res->body);
 	});
 	$self->helper( config_site => sub {	shift->config->{site} });
 	$self->helper( exist_layout_var => sub {
@@ -242,6 +255,7 @@ warn $path_to_template.$paths;
 		->bridge->to( controller => 'auth', action => 'bridge' )
 	;
 	$bridget->route( '/:controller/:action/:id/page/:page' )->to( controller => 'main', action => 'welcome', id => 0, page => 0);
+	$bridget->route( '/:controller/:action/page/:page' )->to( controller => 'main', action => 'welcome', id => 0, page => 0);
 	$bridget->route( '/:controller/:action/:id' )->to( controller => 'main', action => 'welcome', id => 0 );
 }
 

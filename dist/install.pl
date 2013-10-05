@@ -284,7 +284,7 @@ server {
 EOF_NGINX
 if( $upload_module ){
 	printf $NGINX <<EOF_NGINX;
-	location ~ /(\w+)/(\w+)_upfast/(.*) {
+	location ~ /(\\w+)/(\\w+)_upfast(?:/(.*))? {
 		# Store files to this location
 		upload_pass  /\$1/\$2/\$3;
 		upload_store /tmp/margarita_upload/;

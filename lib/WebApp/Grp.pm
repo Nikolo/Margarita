@@ -15,9 +15,6 @@ sub edit {
     my $grp = $self->app->schema->resultset('Grp')->find( { id => $self->stash->{id} });
     if( $self->isPOST ){
         my %param = map {$_ => $self->param( $_ ) || undef} qw/name description/;
-		$param{is_tp} = $self->param( 'is_tp' )||'0';
-		$param{enable_active_link} = $self->param( 'enable_active_link' )||'0';
-		$param{num_units} = $self->param( 'num_units' )||'0';
 		$grp->update( \%param );
 		if( $self->param( 'email' )){
 			if( my $usr = $self->app->schema->resultset('User')->search({email => lc($self->param( 'email' ))})->first ){

@@ -35,54 +35,6 @@ sub data {
 	return 1;
 }
 
-# This action will render a template
-sub history {
-	my $self = shift;
-	my $order = $self->app->schema->resultset('Order')->search( { 'user_id' => $self->session->{user_id}}, {order_by => {-desc => "date"}, rows => 10} )->page( $self->stash->{id}||1 );
-	$self->render( order => [$order->all], pager => $order->pager(), in_basket => [$self->app->schema->resultset('Basket')->search({ session_id => $self->session->{id} })->all] );
-}
-
-sub set_address {
-	my $self = shift;
-	my $status = 'Error';
-	if ( $self->isPOST ){
-		$self->session('update_addr', time());
-		my $q = $self->{tx}->req->method . " " . $self->{tx}->req->url->base->scheme . "://" . $self->{tx}->req->url->base->host . "/" . join ("/", @{$self->{tx}->req->url->path->parts}) . " Change coords from: " . $self->session('position') . "\n";
-		$self->session('position', $self->param('position'));
-		$self->session('addr', $self->param('addr'));
-		$self->app->log->info($q);
-		my ($lon,$lat) = split (' ',$self->session('position'));
-		$self->stash('position_lon',$lon);
-		$self->stash('position_lat',$lat);
-		$self->stash('location',$self->param('addr'));
-		$q = $self->{tx}->req->method . " " . $self->{tx}->req->url->base->scheme . "://" . $self->{tx}->req->url->base->host . "/" . join ("/", @{$self->{tx}->req->url->path->parts}) . " Change coords to: " . $self->session('position') . "\n";
-		$self->app->log->info($q);
-		$status = 'OK';
-        my $ua = Mojo::UserAgent->new;
-		$ua->request_timeout(1);
-        my $ip_info = $ua->get('http://geo.serving-sys.com/GeoTargeting/ebGetLocation.aspx?ip=' . $self->req->headers->header('x-forwarded-for') )->res->body;  
-        my $data = {map  { (split /=/, $_) } split(/&/, $ip_info)};
-		
-		foreach( $self->app->schema->resultset('Basket')->search({ session_id => $self->session->{id}, collection_id => {"is not",undef}  }, { order_by => 'collection_id' })->all ){
-			$self->app->schema->resultset('Basket')->find( $_->id )->update({
-				avg_price => $self->collection_price_for_region( $_->collection_id )->{avg_price},
-				min_price => $self->collection_price_for_region( $_->collection_id )->{min_price},
-				max_price => $self->collection_price_for_region( $_->collection_id )->{max_price},
-				currency  => $self->collection_price_for_region( $_->collection_id )->{currency}
-			});
-		}
-		foreach( $self->app->schema->resultset('Basket')->search({ session_id => $self->session->{id}, diagnostic_id => {"is not",undef}  }, { order_by => 'diagnostic_id' })->all ){
-			$self->app->schema->resultset('Basket')->find( $_->id )->update({
-				avg_price => $self->diagnostic_price_for_region( $_->diagnostic_id )->{avg_price},
-				min_price => $self->diagnostic_price_for_region( $_->diagnostic_id )->{min_price},
-				max_price => $self->diagnostic_price_for_region( $_->diagnostic_id )->{max_price},
-				currency  => $self->diagnostic_price_for_region( $_->diagnostic_id )->{currency}
-			});
-		}
-	}
-	return $self->render_text( '{"Status":"'.$status.'"}' );
-}
-
 sub welcome {
 	my $self = shift;
 	if( $self->isPOST ) {

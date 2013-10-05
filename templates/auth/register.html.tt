@@ -1,4 +1,4 @@
-[% h.layout_var( 'meta_title', 'АнализМаркет - регистрация' ) %]
+[% h.layout_var( 'meta_title', 'Регистрация' ) %]
 [% h.layout_var( 'meta_desc', ' ') %]
 [% PROCESS ".blocks/main" %]
 <div class="analiz_content auth_form">
@@ -11,12 +11,10 @@
 <input type="hidden" name="back_url" value="[% back_url %]" />
 <div class="ermail">Укажите ваш e-mail адрес и мы вышлем вам данные для регистрации</div>
 <div class="acc_input logi_p"><input name="email" type="text" title="E-mail адрес" placeholder="E-mail" /></div>
-<input class="input_submit login_s lbr" type="submit" value="Зарегистрировать" />
+<input class="input_submit login_s lbr" type="submit" value="Зарегистрироваться" />
 </form>
 
-<small class="reg_promo">Зарегистрируйтесь, чтобы сохранить бланк заказа. Это позволит вам систематически следить за своим здоровьем, 
-всякий раз выбирая наиболее выгодное предложение, так как данные о ценах и пунктах забора анализов постоянно обновляются.</small>
+<small class="reg_promo">Зарегистрируйтесь, чтобы иметь возможность оставлять комментарии. И следить за интересующими вас статьями.</small>
 
 </div>
-[% PROCESS pager %]
 </div>

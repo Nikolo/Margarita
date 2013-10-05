@@ -1,62 +1,19 @@
-[% IF SUBJECT %]Регистрация на сайте analizmarket.ru[% ELSIF TEXT %]
-[% IF order_with_register == 1 %]
-<div style="width:600px;background:url(http://www.analizmarket.ru/img/mail-stripes.png);padding:10px;">
+[% IF SUBJECT %]Регистрация на сайте Image-make.ru[% ELSIF TEXT %]
+<div style="width:600px;background:url(http://www.image-make.ru/img/mail-stripes.png);padding:10px;">
 <div style="padding:20px;background:#f5f5f5;font-family:tahoma,sans-serif;">
-<a href="http://analizmarket.ru/"><img src="http://www.analizmarket.ru/img/logo-png.png" style="border:0px;"></a>
+<a href="http://image-make.ru/"><img src="http://www.image-make.ru/img/logo-png.png" style="border:0px;"></a>
 <div style="padding:20px 0px; border-bottom:1px solid #ccc;">
-<h1 style="font-size:28px;">Регистрация на сайте analizmarket.ru</h1>
+<h1 style="font-size:28px;">Регистрация на сайте image-make.ru</h1>
 Здравствуйте!<br/><br/>
-Благодарим вас за заказ лабораторных исследований на "АнализМаркете". Теперь вы можете создать на сайте analizmarket.ru личный аккаунт. Это даст вам возможность обращаться к истории своих заказов, оставлять отзывы о лабораториях, получать скидки и хранить результаты исследований на сервере.<br/><br/>
-Чтобы подтвердить регистрацию, пройдите по ссылке: <a href="http://www.analizmarket.ru/auth/activationlink/[% activationid %]?email=[% email %]&back_url=%2F">ссылке</a>.<br/><br/>
+Благодарим вас за регистрацию на "ImageMAKE". Теперь вы можете создать на сайте <a href="http://image-make.ru">image-make.ru</a> личный аккаунт.<br/><br/>
+Чтобы подтвердить регистрацию, пройдите по ссылке: <a href="http://www.image-make.ru/auth/activationlink/[% activationid %]?email=[% email %]&back_url=%2F">ссылке</a>.<br/><br/>
 Если вы не хотите создавать аккаунт, проигнорируйте это письмо.
 </div>
 <div style="font-size:12px;color:#666;padding-top:20px;">
 С уважением,<br/>
-«АнализМаркет»<br/>
-Москва, Тверской бульвар,<br/>
-дом 13, стр. 1, офис 280.<br/>
-+7 (495) 783-85-54<br/>
-info@analizmarket.ru<br/>
+«ImageMAKE»<br/>
+<a href="mailto:info@image-make.ru">info@image-make.ru</a><br/>
 </div>
 </div>
 </div>
-[% ELSIF register_with_request == 1 %]
-<div style="width:600px;background:url(http://www.analizmarket.ru/img/mail-stripes.png);padding:10px;">
-<div style="padding:20px;background:#f5f5f5;font-family:tahoma,sans-serif;">
-<a href="http://analizmarket.ru/"><img src="http://www.analizmarket.ru/img/logo-png.png" style="border:0px;"></a>
-<div style="padding:20px 0px; border-bottom:1px solid #ccc;">
-<h1 style="font-size:28px;">Регистрация на сайте analizmarket.ru</h1>
-Здравствуйте!<br/>
-Вы зарегистрировались как представитель лаборатории на сайте “АнализМаркет”. Наш специалист свяжется с вами для добавления на наш сайт сведений о ценах, расположении пунктов забора и дополнительных услугах вашей лаборатории.
-Чтобы подтвердить регистрацию, пройдите по <a href="http://www.analizmarket.ru/auth/activationlink/[% activationid %]?email=[% email %]&back_url=%2F">ссылке</a>.<br/>
-</div>
-<div style="font-size:12px;color:#666;padding-top:20px;">
-С уважением,<br/>
-«АнализМаркет»<br/>
-Москва, Тверской бульвар,<br/>
-дом 13, стр. 1, офис 280.<br/>
-+7 (495) 783-85-54<br/>
-info@analizmarket.ru<br/>
-</div>
-</div>
-</div>
-[% ELSE %]
-<div style="width:600px;background:url(http://www.analizmarket.ru/img/mail-stripes.png);padding:10px;">
-<div style="padding:20px;background:#f5f5f5;font-family:tahoma,sans-serif;">
-<a href="http://analizmarket.ru/"><img src="http://www.analizmarket.ru/img/logo-png.png" style="border:0px;"></a>
-<div style="padding:20px 0px; border-bottom:1px solid #ccc;">
-<h1 style="font-size:28px;">Регистрация на сайте analizmarket.ru</h1>
-Здравствуйте!<br/>
-Чтобы подтвердить регистрацию, пройдите по <a href="http://www.analizmarket.ru/auth/activationlink/[% activationid %]?email=[% email %]&back_url=%2F">ссылке</a>.<br/>
-Вы получили это сообщение, потому что данный e-mail был указан при регистрации на сайте analizmarket.ru. 
-</div>
-<div style="font-size:12px;color:#666;padding-top:20px;">
-С уважением,<br/>
-«АнализМаркет»<br/>
-+7 (495) 783-85-54<br/>
-info@analizmarket.ru<br/>
-</div>
-</div>
-</div>
-[% END %]
 [% END %]

@@ -1,4 +1,9 @@
 /log/production.log
 margarita.cfg
 /script/hypnotoad.pid
-/lib/WebApp/Plugins/*.pm
+/lib/Plugins/WebApp/*.pm
+/lib/Schema.pm
+/lib/Schema
+/plugins/templates
+/public/css/plugins/
+/public/js/plugins/

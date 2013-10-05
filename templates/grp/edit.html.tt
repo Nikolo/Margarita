@@ -11,20 +11,6 @@
                 <td><input type="text" name="description" value="[% grp.description %]"></td>
         </tr>
 	<tr>
-        <tr>
-                <td>Является тарифным планом</td>
-                <td><input type="checkbox" name="is_tp" [% IF grp.is_tp %]checked="checked"[% END %]></td>
-        </tr>
-[% IF grp.is_tp %]
-		<tr>
-                <td>Ставим внешние ссылки</td>
-                <td><input type="checkbox" name="enable_active_link" [% IF grp.enable_active_link %]checked="checked"[% END %]></td>
-        </tr>
-		<tr>
-                <td>Кол-во пунктов обслуживания</td>
-                <td><input type="text" name="num_units" value="[% grp.num_units %]"></td>
-        </tr>
-[% END %]
 		<td>Добавление страницы</td>
 		<td style="border-right:1px solid black"><select name="add_page"><option value="0">Не выбрано</option>[% FOREACH pg = pages %]<option value="[% pg.id %]">[% pg.controller %]/[% pg.action %] : [% pg.menu_name %]</option>[% END %]</select></td>
 		<td>Добавление пользователя</td>

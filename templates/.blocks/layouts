@@ -67,9 +67,6 @@
 [% END %]
 
 [% BLOCK menu %]
-[% IF 0 %]
-	<ul><li><a href="/tests/" class="andiag">Анализы</a></li><li><a href="/diagnostic/" class="diag_m">УЗИ, МРТ, КТ...</a></li><!--<li><a href="/panels/" class="panels_m">Панели исследований</a></li>--><li><a href="/labs/" class="mlabs">Лаборатории</a></li><li><a href="/howitwork/" class="hitw">Как это работает</a></li><!--<li><a href="#" class="elmed">Электронная медкарта</a></li><li><a href="#" class="askd">Спросите врача</a></li>--></ul>
-[% END %]
 [% END %]
 
 [% BLOCK show_errors %]

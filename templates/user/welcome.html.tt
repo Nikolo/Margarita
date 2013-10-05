@@ -40,7 +40,7 @@
 			<div class="main_info">
 				<label>Фамилия:</label><div class="acc_input"><input class="text" autocomplete="off" name="last_name" type="text" value="[% user.last_name %]" /></div>
 				<label>Имя:</label><div class="acc_input"><input class="text" autocomplete="off" name="first_name" type="text" value="[% user.first_name %]" /></div>
-				<label>Адрес электронной почты:</label><div class="acc_input"><input class="text" autocomplete="off" name="email" type="text" value="[% user.email %]" disabled="disabled" /></div>
+				<labelgАдрес электронной почты:</label><div class="acc_input"><input class="text" autocomplete="off" name="email" type="text" value="[% user.email %]" disabled="disabled" /></div>
 				<label class="check_b"><input type="checkbox" [% IF user.not_receive_mailer == 1 %]checked="checked"[% END %] name="mailer" value="1">Не хочу получать письма </label>
 			</div>
 			<div class="geo_info">
@@ -53,7 +53,7 @@
 						[% END %]
 					</select>
 				</div>
-				<div class="field_body"><label>Адрес:</label>
+				<div class="field_body"><label>Город:</label>
 					<div class="acc_input"><input class="text" autocomplete="off" name="city" type="text" value="[% user.city %]" /></div>
 				</div>
 			</div>
