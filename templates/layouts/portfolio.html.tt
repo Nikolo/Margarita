@@ -1,4 +1,4 @@
-[% PROCESS ".blocks/user_default/layouts" %]
+[% PROCESS ".blocks/layouts" %]
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -32,7 +32,10 @@
 			[% END %]
 			});
 		</script>
-		<div id="container" class="n_container">
+<div id="header">
+</div>
+<!--
+<div id="container" class="n_container">
 			<div id="header">
 				<div class="wrap">
 					<div class="logo" style="font-size: 36px;"><span>Image</span><span style="color: #359BED;font-weight: bold;">MAKE</span></div>
@@ -163,5 +166,6 @@
 				</div>
 			</div>
 		</div>
-	</body>
+-->
+</body>
 </html>

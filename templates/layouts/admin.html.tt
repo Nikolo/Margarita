@@ -1,4 +1,4 @@
-[% PROCESS '.blocks/layouts' %]
+[% PROCESS '.blocks/adminlayouts' %]
 <!DOCTYPE html>
 <html>
       <head>

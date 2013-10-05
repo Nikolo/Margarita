@@ -115,7 +115,6 @@ sub startup {
 		}
 	}
 	foreach my $paths (qw{/../lib/WebApp/ /../lib/Plugins/WebApp/}){
-warn $path_to_template.$paths;
 		$dirs_main = IO::Dir->new( $path_to_template.$paths );
 		foreach my $pms ( grep { $_ =~ /\.pm$/ && -f $path_to_template.$paths.$_ } $dirs_main->read()){
 			my $FH;
@@ -244,7 +243,7 @@ warn $path_to_template.$paths;
 		my $tx = shift;
 		$tx->res->headers->remove('Set-Cookie');
 	});
-	$self->defaults(layout => 'user_default');
+	$self->defaults(layout => $self->config->{layout});
 
 	# Router
 	my $r = $self->routes;
