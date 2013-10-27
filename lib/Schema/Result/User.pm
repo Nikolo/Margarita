@@ -15,18 +15,6 @@ use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
-
-=over 4
-
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=back
-
-=cut
-
-__PACKAGE__->load_components("InflateColumn::DateTime");
-
 =head1 TABLE: C<users>
 
 =cut
@@ -186,17 +174,17 @@ __PACKAGE__->add_unique_constraint("users_email_key", ["email"]);
 
 =head1 RELATIONS
 
-=head2 articles
+=head2 fotoes
 
 Type: has_many
 
-Related object: L<Schema::Result::Article>
+Related object: L<Schema::Result::Foto>
 
 =cut
 
 __PACKAGE__->has_many(
-  "articles",
-  "Schema::Result::Article",
+  "fotoes",
+  "Schema::Result::Foto",
   { "foreign.author" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
@@ -217,8 +205,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07033 @ 2013-05-30 23:51:23
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:AO+c83ZK+Ry67WvSaEq60A
+# Created by DBIx::Class::Schema::Loader v0.07033 @ 2013-10-16 00:16:36
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:HyXCzK/XdO1+PTeOG5RgLQ
 
 __PACKAGE__->many_to_many(
    "grps" => "roles",

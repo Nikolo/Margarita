@@ -15,18 +15,6 @@ use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
-
-=over 4
-
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=back
-
-=cut
-
-__PACKAGE__->load_components("InflateColumn::DateTime");
-
 =head1 TABLE: C<tags>
 
 =cut
@@ -90,24 +78,24 @@ __PACKAGE__->add_unique_constraint("tags_name_key", ["name"]);
 
 =head1 RELATIONS
 
-=head2 article_tags
+=head2 foto_tags
 
 Type: has_many
 
-Related object: L<Schema::Result::ArticleTag>
+Related object: L<Schema::Result::FotoTag>
 
 =cut
 
 __PACKAGE__->has_many(
-  "article_tags",
-  "Schema::Result::ArticleTag",
+  "foto_tags",
+  "Schema::Result::FotoTag",
   { "foreign.id_tag" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07033 @ 2013-06-18 19:51:50
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:3JWK2ynTAI1r4ra13oSxPg
+# Created by DBIx::Class::Schema::Loader v0.07033 @ 2013-10-16 00:16:36
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:NCzuGMSNRIl/a0xDNl0Z1Q
 
 __PACKAGE__->many_to_many(
   "articles" => "article_tags",

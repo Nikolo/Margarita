@@ -1,6 +1,7 @@
 [% h.layout_var( 'meta_title', 'Главная' ) %]
-[% h.layout_var( 'meta_desc', 'На сайте Image-make.ru вы сможете найти любую информацию о создании стиля.') %]
+[% h.layout_var( 'meta_desc', 'Сайт арт студии "Маруся стайл"') %]
 <div class="main_vitr">
 [%# PROCESS 'article/.blocks/main_slider' %]
+[% PROCESS 'fotoalbum/.blocks/main_slider' fotos = h.last_fotos, autoplay=1 %]
 </div>
 <div class="clear"></div>

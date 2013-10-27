@@ -34,10 +34,10 @@
 			});
 		</script>
 		<div id="header" class="bothlined">
-			<div id="logo"></div>
+			<div id="logo"><a href="/"><img src="[% h.config_site.logo_path %]" /></a></div>
 			<div id="logoright">
 				<div class="headertext">[% h.config_site.headertext1 %]</div>
-				<div class="headertext">[% h.config_site.headertext2 %]</div>
+				<div class="headertext_l">[% h.config_site.headertext2 %]</div>
 			</div>
 			<div class="clear"></div>
 		</div>

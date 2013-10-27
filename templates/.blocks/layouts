@@ -3,7 +3,7 @@
 	<meta name="description" content="[% h.layout_var( 'meta_desc' ) %]">
 	[% IF h.exist_layout_var( 'keys' ) %]<meta name="keywords" content="[% h.layout_var( 'keys' ) %]" />[% END %]
 	<meta property="og:title" content="[% h.config_site.name %]"/>
-[% IF 0 %]		<meta property="og:image" content="[% c.tx.req.url.base.scheme _ "://" _ c.tx.req.url.base.host %]/img/logo.gif"/> [% END %]
+	[% IF h.config_site.logo_path %]<meta property="og:image" content="[% c.tx.req.url.base.scheme _ "://" _ c.tx.req.url.base.host %][% h.config_site.logo_path %]"/> [% END %]
 	[% IF h.exist_layout_var( 'meta_tags' ) %]
 		[% FOREACH tag = h.layout_var( 'meta_tags' ) %]
 			<meta property="[% tag.property %]" content="[% tag.content%]" />
@@ -12,18 +12,18 @@
 	<meta property="og:site_name" content="[% h.config_site.name %]"/>
 	<meta property="og:description" content="На сайте «[% h.config_site.name %]» [% h.config_site.description %]"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
 	[% IF h.config_site.vk_username %]
 	<script src="http://vk.com/js/api/openapi.js" type="text/javascript"></script>
 	[% END %]
 	[% IF h.exist_layout_var( 'css' ) %]
 		[% FOREACH css = h.layout_var( 'css' ) %]
-			<link rel="stylesheet" type="text/css" media="all" href="/css/plugins/[% h.layout_var('layout_path') %]/[% css %]?[% h.mtime_static.css %]" />
+			<link rel="stylesheet" type="text/css" media="all" href="/css/[% h.layout_var('layout_path') %]/[% css %]?[% h.mtime_static.css %]" />
 		[% END %]
 	[% END %]
 	[% IF h.exist_layout_var( 'js' ) %]
 		[% FOREACH js = h.layout_var( 'js' ) %]
-			<script src="/js/plugins/[% h.layout_var('layout_path') %]/[% js %]?[% h.mtime_static.js %]" type="text/javascript"></script>
+			<script src="/js/[% h.layout_var('layout_path') %]/[% js %]?[% h.mtime_static.js %]" type="text/javascript"></script>
 		[% END %]
 	[% END %]
 	<link rel="stylesheet" type="text/css" media="all" href="/css/[% h.layout_var('layout_path') %]/margarita.css?[% h.mtime_static.css %]" />

@@ -15,18 +15,6 @@ use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
-
-=over 4
-
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=back
-
-=cut
-
-__PACKAGE__->load_components("InflateColumn::DateTime");
-
 =head1 TABLE: C<pages>
 
 =cut
@@ -131,8 +119,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07033 @ 2013-05-30 23:51:23
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:7q3Pel7zAYLZSvUz6SD5uA
+# Created by DBIx::Class::Schema::Loader v0.07033 @ 2013-10-16 00:16:36
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:+/890Tq2nvXHi+bWdq2nbg
 
 __PACKAGE__->many_to_many(
    "grps" => "acls",

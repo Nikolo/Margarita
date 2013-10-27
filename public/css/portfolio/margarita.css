@@ -1,3 +1,7 @@
+#logo img {
+	height: 80px;
+}
+
 body {
 	color: #535353;
 	font-family: "Open Sans","Tahoma","Verdana","Arial", sans-serif;
@@ -23,6 +27,7 @@ a:hover{
 
 #header {
 	margin-top: 44px;
+	min-width: 740px;
 	height: 80px;
 }
 
@@ -38,20 +43,30 @@ a:hover{
 	border-top: #d1cec5 2px solid;
 	border-bottom: #d1cec5 2px solid;
 	margin: 20px 50px 0px 20px;
+	min-width: 740px;
+	padding: 0px 50px 0px 50px;
 }
 
 .headertext {
 	float: right;
 	text-align: center;
 	margin-top: 5px;
-	width: 250px;
+	font-size: 18px;
+	position: relative;
+}
+
+.headertext_l {
+	float: left;
+	text-align: center;
+	margin-top: 5px;
 	font-size: 18px;
 	position: relative;
 }
 
 #logoright {
 	margin-right: 50px;
-	min-width: 555px;
+	min-width: 45%;
+	float: right;
 	position: relative;
 }
 
@@ -83,7 +98,7 @@ a:hover{
 }
 
 #menu a {
-	color: #FFFFFF;
+	color: #000000;
 	display: block;
 	font-size: 18px;
 	font-weight: 600;
@@ -142,8 +157,14 @@ a:hover{
 
 }
 
+#container {
+	min-width: 790px;
+}
+
 #content {
 	margin: 0px 100px 0px 100px;
 	border-bottom: 2px solid black;
 	border-top: 2px solid black;
+	padding: 10px 0 10px 0;
 }
+
