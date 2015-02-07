@@ -46,27 +46,8 @@ has mtt => sub {
 	return Template->new( %{$self->tt_param()} );
 };
 
-sub tt_param {
+has recheck_pages => sub {
 	my $self = shift;
-	return {
-		INCLUDE_PATH => [$self->config->{template}->{INCLUDE_PATH}||$FindBin::Bin.'/../templates/', $FindBin::Bin.'/../plugins/templates/' ],
-		COMPILE_DIR  => $self->config->{template}->{COMPILE_DIR}||'/tmp/margarita_tt',
-		COMPILE_EXT  => $self->config->{template}->{COMPILE_EXT}||'.ttc',
-		ENCODING     => $self->config->{template}->{ENCODING}||'utf8',
-		PLUGINS	     => {
-			Encode => 'Template::Filter::Encode',
-		},
-	}
-}
-
-# This method will run once at server start
-sub startup {
-	my $self = shift;
-	$self->config(%{Config::JSON->new( $FindBin::Bin.'/../margarita.cfg' )->{config}});
-	$self->secret( $self->config->{secret} );
-	$self->plugin(tt_renderer => { template_options => $self->tt_param() });
-	$self->renderer->default_handler('tt');
-	$self->mode( $self->config->{app_mode}||'production' );
 	my $path_to_template = $self->config->{template}->{INCLUDE_PATH}||$FindBin::Bin.'/../templates/';
 	my $path_to_public = $path_to_template.'/../public/';	
 	my $max_t = {js => 0, css => 0};
@@ -115,7 +96,6 @@ sub startup {
 		}
 	}
 	foreach my $paths (qw{/../lib/WebApp/ /../lib/Plugins/WebApp/}){
-warn $path_to_template.$paths;
 		$dirs_main = IO::Dir->new( $path_to_template.$paths );
 		foreach my $pms ( grep { $_ =~ /\.pm$/ && -f $path_to_template.$paths.$_ } $dirs_main->read()){
 			my $FH;
@@ -142,6 +122,31 @@ warn $path_to_template.$paths;
 	}
 
 	$self->helper( mtime_static => sub { $max_t });
+	return 1;
+};
+
+sub tt_param {
+	my $self = shift;
+	return {
+		INCLUDE_PATH => [$self->config->{template}->{INCLUDE_PATH}||$FindBin::Bin.'/../templates/', $FindBin::Bin.'/../plugins/templates/' ],
+		COMPILE_DIR  => $self->config->{template}->{COMPILE_DIR}||'/tmp/margarita_tt',
+		COMPILE_EXT  => $self->config->{template}->{COMPILE_EXT}||'.ttc',
+		ENCODING     => $self->config->{template}->{ENCODING}||'utf8',
+		PLUGINS	     => {
+			Encode => 'Template::Filter::Encode',
+		},
+	}
+}
+
+# This method will run once at server start
+sub startup {
+	my $self = shift;
+	$self->config(%{Config::JSON->new( $FindBin::Bin.'/../margarita.cfg' )->{config}});
+	$self->secret( $self->config->{secret} );
+	$self->plugin(tt_renderer => { template_options => $self->tt_param() });
+	$self->renderer->default_handler('tt');
+	$self->mode( $self->config->{app_mode}||'production' );
+	$self->recheck_pages();
 	$self->sessions->default_expiration( 60 * 60 * 24 * 3 );
 	$self->helper( word_ending => sub {
 		my $self = shift;
