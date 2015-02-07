@@ -2,13 +2,13 @@
 <title>[% h.layout_var( 'meta_title' ) %] - [% h.config_site.name %]</title>
 	<meta name="description" content="[% h.layout_var( 'meta_desc' ) %]">
 	[% IF h.exist_layout_var( 'keys' ) %]<meta name="keywords" content="[% h.layout_var( 'keys' ) %]" />[% END %]
-	<meta property="og:title" content="[% h.config_site.name %]"/>
-	[% IF h.config_site.logo_path %]<meta property="og:image" content="[% c.tx.req.url.base.scheme _ "://" _ c.tx.req.url.base.host %][% h.config_site.logo_path %]"/> [% END %]
+	<meta property="og:title" content="[% IF h.exist_layout_var( 'ogtitle' ) %][% h.layout_var( 'ogtitle' ) %][% ELSE %][% h.config_site.name %][% END %]"/>
 	[% IF h.exist_layout_var( 'meta_tags' ) %]
 		[% FOREACH tag = h.layout_var( 'meta_tags' ) %]
 			<meta property="[% tag.property %]" content="[% tag.content%]" />
 		[% END %]
 	[% END %]
+	[% IF h.config_site.logo_path %]<meta property="og:image" content="[% c.tx.req.url.base.scheme _ "://" _ c.tx.req.url.base.host %][% h.config_site.logo_path %]"/> [% END %]
 	<meta property="og:site_name" content="[% h.config_site.name %]"/>
 	<meta property="og:description" content="На сайте «[% h.config_site.name %]» [% h.config_site.description %]"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -29,23 +29,25 @@
 	<link rel="stylesheet" type="text/css" media="all" href="/css/[% h.layout_var('layout_path') %]/margarita.css?[% h.mtime_static.css %]" />
 	<link type="image/x-icon" rel="shortcut icon" href="/favicon.ico" />
 	[% IF h.config_site.addthis_id %]
-		<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js"></script>
+		<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#domready=1&async=1"></script>
 	[% END %]
 	<!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="all" href="/css/[% h.layout_var('layout_path') %]/margarita-ie.css?[% h.mtime_static.css %]" /><![endif]-->
 	<!--[if IE 8]><link rel="stylesheet" type="text/css" media="all" href="/css/[% h.layout_var('layout_path') %]/margarita-ie8.css?[% h.mtime_static.css %]" /><![endif]-->
 	[% IF h.config_site.ya_verification %]<meta name='yandex-verification' content='[% h.config_site.ya_verification %]' />[% END %]
 [% END %]
 
+[% addthis_iterator = 0 %]
 [% BLOCK addthis %]
 	[% IF h.config_site.addthis_id %]
-		<div id="addthis_button_block">
+		<div class="addthis_button_block" id="addthis_button_block[% IF addthis_iterator %][% addthis_iterator %][% END %]">
 		<ul>
-		<li><a class="addthis_button_vk"></a></li>
-		<li><a class="addthis_button_facebook"></a></li>
-		<li><a class="addthis_button_twitter"></a></li>
-		<li><a class="addthis_button_google_plusone_share"></a></li>
-		<li><a class="addthis_button_compact"></a></li>
+		<li><a class="addthis_button_vk" [% IF addthisurl %]addthis:url="[% addthisurl %]"[% END %]></a></li>
+		<li><a class="addthis_button_facebook" [% IF addthisurl %]addthis:url="[% addthisurl %]"[% END %]></a></li>
+		<li><a class="addthis_button_twitter" [% IF addthisurl %]addthis:url="[% addthisurl %]"[% END %]></a></li>
+		<li><a class="addthis_button_google_plusone_share" [% IF addthisurl %]addthis:url="[% addthisurl %]"[% END %]></a></li>
+		<li><a class="addthis_button_compact" [% IF addthisurl %]addthis:url="[% addthisurl %]"[% END %]></a></li>
 		</ul>
 		</div>
+	[% addthis_iterator = addthis_iterator + 1 %]
 	[% END %]
 [% END %]

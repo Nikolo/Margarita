@@ -21,7 +21,7 @@ sub edit {
         my %param = map {$_ => $self->param( $_ )} qw/title/;
         $unit->update( \%param );
 		$unit->add_to_grps( id => $self->param('add_grp') ) if $self->param('add_grp') =~ /^\d+$/;
-		$unit->add_to_menus({ menu_type_id => $self->param('add_menu'), name => $self->param('menu_name') }) if $self->param('add_menu') =~ /^\d+$/;
+		$unit->add_to_menus({ menu_type_id => $self->param('add_menu'), name => $self->param('menu_name'),position => $self->param('position') }) if $self->param('add_menu') =~ /^\d+$/;
 		return $self->redirect_back;
     }
     else {

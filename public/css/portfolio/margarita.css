@@ -21,10 +21,6 @@ a:visited {
 	color: #464646;
 } 
 
-a:hover{
-	color: #359BED;
-}
-
 #header {
 	margin-top: 44px;
 	min-width: 740px;
@@ -64,8 +60,7 @@ a:hover{
 }
 
 #logoright {
-	margin-right: 50px;
-	min-width: 45%;
+	min-width: 50%;
 	float: right;
 	position: relative;
 }
@@ -144,17 +139,19 @@ a:hover{
 .venz {
 	height: 50px;
 	background-repeat: no-repeat;
-	background-position-x: center;
+	background-position: center;
 }
 
 #venztop {
 	background-image: url('/img/portfolio/venz.png');
-
+	margin: 0px 100px 0px 100px;
+	min-width: 740px;
 }
 
 #venzbottom {
 	background-image: url('/img/portfolio/venz_bot.png');
-
+	margin: 0px 100px 0px 100px;
+	min-width: 740px;
 }
 
 #container {
@@ -166,5 +163,6 @@ a:hover{
 	border-bottom: 2px solid black;
 	border-top: 2px solid black;
 	padding: 10px 0 10px 0;
+	min-width: 740px;
 }
 

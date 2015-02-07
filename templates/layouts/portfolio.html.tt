@@ -29,9 +29,10 @@
 			[% IF h.config_site.addthis_id %]
 				var addthis_config = {
 				     pubid: '[% h.config_site.addthis_id %]'
-					 };
+				};
+//				addthis.init();
 			[% END %]
-			});
+		});
 		</script>
 		<div id="header" class="bothlined">
 			<div id="logo"><a href="/"><img src="[% h.config_site.logo_path %]" /></a></div>
@@ -54,97 +55,6 @@
 			<div id="content">[% h.content %]</div>
 			<div id="venzbottom" class="venz"></div>
 		</div>
-<!--
-<div id="header">
-				<div class="wrap">
-					<div class="logo" style="font-size: 36px;"><span>Image</span><span style="color: #359BED;font-weight: bold;">MAKE</span></div>
-					<div class="date">[% USE Encode method = '_utf8_on' %][% FILTER $Encode %][% date.format(date.now, '%A, %e %B %Y', locale => 'ru_RU.UTF-8') %][% END %]</div>
-					<div class="social">
-						<ul>
-							[% IF h.config_site.twitter_username %][% tw = h.get_twitter_data %]<li><a href="https://twitter.com/[% tw.screen_name %]"><img src="/img/user_default/twitter.png" /></a></li>[% END %]
-							[% IF h.config_site.facebook_username %][% fb = h.get_facebook_data %]<li><a target="facebook" href="[% fb.link %]"><img src="/img/user_default/facebook.png" /></a></li>[% END %]
-							[% IF h.config_site.vk_username %]<li><a target="vk" href="http://vk.com/[% h.config_site.vk_username %]"><img src="/img/user_default/vk.png" /></a></li>[% END %]
-							[% IF h.config_site.gplus_enabled %]<li><a href="[% h.config_site.gplus_link %]"><img src="/img/user_default/gplus.png" /></a></li>[% END %]
-						</ul>
-					</div>
-				</div>
-				<div id="menu">
-					<ul id="main-menu" class="menu">
-						<li class="menu-item"><a href="/" class="[% IF controller == 'main' && action == 'welcome' %]active[% END %]"><img src="/img/user_default/home.png" /></a></li>
-						[% FOREACH item = h.menu_items( 'top' ) %]
-							<li class="menu-item"><a class="[% IF item.page.controller == controller && item.page.action == action %]active[% END %]" href="/[% item.page.controller %]/[% item.page.action %]">[% item.name %]</a></li>
-						[% END %]
-					</ul>
-				</div>
-				<div class="clearpos"></div>
-			</div>
-			<div id="main">
-				[% h.content %]
-			</div>
-			<div id="right-sidebar" class="sidebar">
-				<div class="wrap socialcnt">
-					[% IF h.config_site.facebook_username %]
-					<div class="facebook">
-						<div class="icon"><img src="/img/user_default/fb32_1.png" /></div>
-						<div class="cont">
-							<a target="_blank" href="[% fb.link %]">[% fb.likes %]</a>
-						</div>
-						<div class="text">Likes</div>
-					</div>
-					[% END %]
-					[% IF h.config_site.twitter_username %]
-					<div class="twitter">
-						<div class="icon"><img src="/img/user_default/twitter32_1.png" /></div>
-						<div class="cont">
-							<a target="_blank" href="https://twitter.com/[% tw.screen_name %]">[% tw.followers_count %]</a>
-						</div>
-						<div class="text">Followers</div>
-					</div>
-					[% END %]
-				</div>
-				<div class="wrap socialcnt">
-					[% IF h.config_site.vk_username %]
-					<div class="vk">
-						<div class="icon"><img src="/img/user_default/vk32_1.png" /></div>
-						<div class="cont">
-							<a target="_blank" href="http://vk.com/[% h.config_site.vk_username %]" id="gr_members_vk">...</a>
-						</div>
-						<div class="text">Friends</div>
-					</div>
-					[% END %]
-					[% IF h.config_site.gplus_username %]
-					<div class="twitter">
-						<div class="icon"><img src="/img/user_default/gplus32_1.png" /></div>
-						<div class="cont">
-							<a target="_blank" href="https://twitter.com/[% tw.screen_name %]">[% tw.followers_count %]</a>
-						</div>
-						<div class="text">Followers</div>
-					</div>
-					[% END %]
-				</div>
-				<div id="contact" class="widget">
-					<h3>Обратная связь</h3>
-					<form action="" id="form" method="post">
-						<div class="field">
-							<label for="sender_name">Имя</label>
-							<input type="text" class="text" name="sender_name" id="sender_name" />
-						</div>
-						<div class="field">
-							<label for="sender_email">Email</label>
-							<input type="text" class="text" name="sender_email" id="sender_email" />
-						</div>
-						<div class="field">
-							<label for="sender_name">Сообщение</label>
-							<textarea class="textarea" name="message_text"></textarea>
-						</div>
-						<div class="field">
-							<input type="submit" class="input_submit" value="Отправить" />
-						</div>
-					</form>
-				</div>
-			</div>
-			<div class="clearpos"></div>
--->
 			<div id="footer">
 				<div class="cpyright">© «[% h.config_site.name %]», [% h.config_site.install_year;
 					IF date.format( date.now, '%Y' ) != h.config_site.install_year %]-[% date.format( date.now, '%Y' ) %] [% END %]г.</div>

@@ -1,0 +1,75 @@
+<style>
+#files img {
+	max-width: 100px;
+	max-height: 100px;
+}
+#files p {
+	float: left;
+	min-width: 100px;
+	min-height: 100px;
+	margin: 5px;
+	border: 1px solid black;
+}
+</style>
+<span class="btn btn-success fileinput-button">
+	<i class="glyphicon glyphicon-plus"></i>
+	<span>Выбирите файлы...</span>
+		<input id="fileupload" type="file" name="files" data-url="/main/upload_upfast/" multiple>
+	</span>
+	<br>
+	<br>
+	<div id="progress" class="progress">
+		<div class="progress-bar progress-bar-success"></div>
+	</div>
+	<div id="files" class="files">
+		[% FOREACH file = files %]
+			<p>[% file.name %] <a href="" class="delete_files" data-id="[% file.name %]">[X]</a><br/>&lt;img src='[% file.url %]' /&gt;<img src="[% file.url %]" /></p><br />
+		[% END %]
+	</div>
+</span>
+<script>
+	function delete_fil( $link ){
+		$.ajax({
+			type: "POST",
+			url: "/main/file_delete/",
+			data: { fname: $link.attr('data-id') },
+			dataType: 'json',
+		}) 
+		.done(function( msg ) {
+			if( msg.status == 'ok' ){
+				$link.parent().hide();
+			}
+		});
+	}
+	$(function () {
+		$('.delete_files').on('click', function(){delete_fil($(this)); return false;});
+		$('#fileupload').fileupload({
+			dataType: 'json',
+			done: function (e, data) {
+				$.each(data.result.files, function (index, file) {
+					var $p = $('<p/>').prependTo('#files');
+					$p.text( file.name );
+					var $a = $('<a/>');
+					$a.prop('href', '#');
+					$a.prop('class', 'delete_files');
+					$a.attr('data-id', file.name);
+					$a.text('[X]');
+					$a.on('click', function(){delete_fil($(this));return false;});
+					$a.appendTo( $p );
+					$('<br/>').appendTo($p);
+					$('<span/>').text( "\n<img src='" + file.url + "' \>" ).appendTo($p);
+					$('<img />').prop('src', file.url ).appendTo( $p );
+				});
+			},
+			progressall: function (e, data) {
+				var progress = parseInt(data.loaded / data.total * 100, 10);
+				$('#progress .progress-bar').css(
+					'width',
+					progress + '%'
+				);
+			}
+		}).prop('disabled', !$.support.fileInput)
+			.parent().addClass($.support.fileInput ? undefined : 'disabled');;
+	});
+</script>
+
