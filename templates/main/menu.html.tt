@@ -1,0 +1,73 @@
+<link href='/css/jquery-sortable.css' rel='stylesheet' />
+<link href='/css/jquery-sortable-vendor.css' rel='stylesheet' />
+<style>
+body.dragging, body.dragging *
+	cursor: move !important
+.dragged
+	position: absolute
+	top: 0
+	opacity: .5
+	z-index: 2000
+ol.vertical
+	margin: 0 0 9px 0
+	li
+		display: block
+		margin: 5px
+		padding: 5px
+		border: 1px solid #CCC
+		color: $linkColor
+		background: $grayLighter
+	li.placeholder
+		position: relative
+		margin: 0
+		padding: 0
+		border: none
+		&:before
+			position: absolute
+			content: ""
+			width: 0
+			height: 0
+			margin-top: -5px
+			left: -5px
+			top: -4px
+			border: 5px solid transparent
+			border-left-color: $error
+			border-right: none
+</style>
+<script src='/js/jquery-sortable-min.js'></script>
+[% type = -1 %]
+[% FOREACH item = items %]
+	[% IF type != item.menu_type_id %]
+		[% IF type > -1 %]
+			</ol>
+		[% END %]
+		<h1>[% item.menu_type.name %]</h1><ol class="default vertical mt" data-id="[% item.menu_type.id %]">
+		[% type = item.menu_type_id %]
+	[% END %]
+	<li data-id="[% item.id %]">[% item.name %]</li>
+[% END %]
+</ol>
+<script>
+$(function(){ 
+	$("ol.mt").sortable({
+		serialize: function (parent, children, isContainer) {
+		    return isContainer ? children : parent.attr('data-id')
+		},
+		onDrop: function (item, container, _super) {
+			$.ajax({
+				type: "POST",
+				url: "/main/menu/",
+				data: { type: item.parent().attr('data-id'), data: item.parent().sortable("serialize").get().join(",") },
+				dataType: 'json',
+			}) 
+			.done(function( msg ) {
+				if( msg.status == 'ok' ){
+	    			_super(item, container)
+				//	$link.parent().hide();
+				}
+			});
+		},
+	});
+})
+</script>
+

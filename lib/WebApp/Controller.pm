@@ -21,6 +21,39 @@ $Mail::CheckUser::Helo_Domain ='corp.medclub.ru';
 sub isPOST { shift->tx->req->{method} eq 'POST' ? 1 : 0 }
 sub isGET  { shift->tx->req->{method} eq 'GET'  ? 1 : 0 }
 
+sub translit {
+	my $self = shift;
+	my $keyword = shift;
+	my $twokeys = {
+		'ё'=> 'yo',
+		'Ё'=> 'Yo',
+		'ж'=> 'zh',
+		'Ж'=> 'Zh',
+		'х'=> 'kh',
+		'Х'=> 'Kh',
+		'ц'=> 'tc',
+		'Ц'=> 'Tc',
+		'ч'=> 'ch',
+		'Ч'=> 'Ch',
+		'ш'=> 'sh',
+		'Ш'=> 'Sh',
+		'щ'=> 'shch',
+		'Щ'=> 'Shch',
+		'ы'=> 'y',
+		'Ы'=> 'Y',
+		'э'=> 'ye',
+		'Э'=> 'Ye',
+		'ю'=> 'yu',
+		'Ю'=> 'Yu',
+		'я'=> 'ya',
+		'Я'=> 'Ya',
+	};
+	$keyword =~ tr/абвгдезийклмнопрстуфьыъАБВГДЕЗИЙКЛМНОПРСТУФЬЫЪ /abvgdezijklmnoprstuf\-y\-ABVGDEZIJKLMNOPRSTUF\-Y\-_"/;
+	$keyword =~ s/([а-яА-ЯёЁ])/$twokeys->{$1}/egm;
+	$keyword =~ s/[,\.!\?\(\)\[\]\{\}\*&^%\$#@~`'"\+]//g;
+	return $keyword;
+}
+
 sub send_mail {
 	my $self = shift;
 	my $param = shift;

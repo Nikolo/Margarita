@@ -1,0 +1,168 @@
+#logo img {
+	height: 80px;
+}
+
+body {
+	color: #535353;
+	font-family: "Open Sans","Tahoma","Verdana","Arial", sans-serif;
+	font-size: 14px;
+}
+
+img {
+	border:0px;
+}
+
+a:link {
+	text-decoration: none;
+	color: #464646;
+}
+
+a:visited {
+	color: #464646;
+} 
+
+#header {
+	margin-top: 44px;
+	min-width: 740px;
+	height: 80px;
+}
+
+#logo {
+	width: 120px;
+	height: 80px;
+	display: inline-block;
+	float: left;
+}
+
+.bothlined {
+	background: #e8e7e2;
+	border-top: #d1cec5 2px solid;
+	border-bottom: #d1cec5 2px solid;
+	margin: 20px 50px 0px 20px;
+	min-width: 740px;
+	padding: 0px 50px 0px 50px;
+}
+
+.headertext {
+	float: right;
+	text-align: center;
+	margin-top: 5px;
+	font-size: 18px;
+	position: relative;
+}
+
+.headertext_l {
+	float: left;
+	text-align: center;
+	margin-top: 5px;
+	font-size: 18px;
+	position: relative;
+}
+
+#logoright {
+	min-width: 50%;
+	float: right;
+	position: relative;
+}
+
+.clear {
+	clear: both;
+}
+
+#menu {
+	z-index: 30;
+	height: 40px;
+	margin-bottom: 20px;
+}
+
+#menu ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	float: left;
+	list-style-type: none;
+	position: relative;
+	z-index: 99;
+}
+
+#menu li {
+	position: relative;
+	float: left;
+	padding: 0px;
+	margin: 0px;
+}
+
+#menu a {
+	color: #000000;
+	display: block;
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 24px;
+	padding: 8px 20px;
+	text-align: center;
+}
+
+#menu a:link {
+	text-decoration: none;
+}
+
+#menu a:hover, #menu .active{
+	background: #cec5c0;
+}
+
+#footer {
+	border-top: 1px solid #EEEEEE;
+	padding-top: 10px;
+	margin-top: 30px;
+}
+
+.poweredby {
+	float: right;
+	height: 40px;
+}
+
+.cpyright {
+	float: left;
+	height: 40px;
+}
+
+.femailphone {
+	text-align: center;
+}
+
+.orphus {
+	float: right;
+	margin-top: -14px;
+	padding-right: 20px;
+}
+
+.venz {
+	height: 50px;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+#venztop {
+	background-image: url('/img/portfolio/venz.png');
+	margin: 0px 100px 0px 100px;
+	min-width: 740px;
+}
+
+#venzbottom {
+	background-image: url('/img/portfolio/venz_bot.png');
+	margin: 0px 100px 0px 100px;
+	min-width: 740px;
+}
+
+#container {
+	min-width: 790px;
+}
+
+#content {
+	margin: 0px 100px 0px 100px;
+	border-bottom: 2px solid black;
+	border-top: 2px solid black;
+	padding: 10px 0 10px 0;
+	min-width: 740px;
+}
+

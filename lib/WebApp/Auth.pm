@@ -21,7 +21,7 @@ sub bridge {
 			$self->render_not_found ;
 			return 0;
 		}
-		unless( $self->app->schema->resultset( 'Page' )->search( 
+		my $page = $self->app->schema->resultset( 'Page' )->search( 
 			{ -and => {
 				-or => {
 					-and => {
@@ -35,10 +35,12 @@ sub bridge {
 			  }
 			}, 
 			{ join => { 'acls' => {'grp' => 'roles' }}} 
-		)->all()){
+		)->first();
+		unless( $page ){
 			$self->render( template => "auth/login", error => '1', back_url => $self->param('back_url')||'/'.$_->{controller}.'/'.$_->{action}.'/'.$_->{id} );
 			return 0;
 		}
+		$self->stash('current_page', $page);
 	}
 	return 1;
 }

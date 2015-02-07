@@ -1,0 +1,100 @@
+[% PROCESS ".blocks/layouts" %]
+[% h.layout_var('layout_path', 'portfolio') %]
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+	[% PROCESS header %]
+	</head>
+	<body>[% USE date %]
+		<script>
+			$(document).ready( function(){
+			[% IF h.config_site.vk_username %]
+				VK.init({ apiId: [% h.config_site.vk_apiId %]});
+				VK.Api.call(
+					'groups.getById',
+					{
+						gids: '[% h.config_site.vk_username %]', 
+						fields: "members_count"
+					}, 
+					function(data) {
+						if (data.response) {
+							document.getElementById('gr_members_vk').innerHTML = data.response[0].members_count
+						}
+						else {
+							console.log( data );
+						}
+					}
+				);
+			[% END %]
+			[% IF h.config_site.addthis_id %]
+				var addthis_config = {
+				     pubid: '[% h.config_site.addthis_id %]'
+				};
+//				addthis.init();
+			[% END %]
+		});
+		</script>
+		<div id="header" class="bothlined">
+			<div id="logo"><a href="/"><img src="[% h.config_site.logo_path %]" /></a></div>
+			<div id="logoright">
+				<div class="headertext">[% h.config_site.headertext1 %]</div>
+				<div class="headertext_l">[% h.config_site.headertext2 %]</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="menu" class="bothlined">
+			<ul id="main-menu" class="menu">
+				[% FOREACH item = h.menu_items( 'top' ) %]
+					<li class="menu-item"><a class="[% IF item.page.controller == controller && item.page.action == action %]active[% END %]" href="/[% item.page.controller %]/[% item.page.action %]">[% item.name %]</a></li>
+				[% END %]
+			</ul>
+		</div>
+		<div id="clear"></div>
+		<div id="container" class="n_container">
+			<div id="venztop" class="venz"></div>
+			<div id="content">[% h.content %]</div>
+			<div id="venzbottom" class="venz"></div>
+		</div>
+			<div id="footer">
+				<div class="cpyright">© «[% h.config_site.name %]», [% h.config_site.install_year;
+					IF date.format( date.now, '%Y' ) != h.config_site.install_year %]-[% date.format( date.now, '%Y' ) %] [% END %]г.</div>
+				<div class="poweredby">margaritaCMS ©</div>
+				[% IF h.config_site.info_email || h.config_site.phone %]<div class="femailphone">[% h.config_site.info_email %]<br>[% h.config_site.phone %]</div>[% END;
+				IF h.config_site.orphus_enabled %]
+					<div class="orphus">
+						<a href="http://orphus.ru" rel="nofollow" id="orphus" target="_blank">
+							<img alt="Система Orphus" src="/img/user_default/orphus.gif" border="0" width="95" height="15" style="margin-left:20px;" />
+						</a>
+					</div>
+				[% END %]
+				<div style="position:absolute;left:-7000px">
+					[% h.config_site.counter_code_footer %]
+					[% IF h.config_site.orphus_enabled %]<script type="text/javascript" src="/js/orphus.js?[% h.mtime_static.js %]"></script>[% END %]
+					[% IF h.config_site.copiny_enabled %]
+						<script type="text/javascript" charset="utf-8">
+							var proto = (document.location.protocol=='https:')?'https:':'http:';
+							var host = proto+'//widget.copiny.com';
+							document.write(unescape("%3Cscript src='" + host + "/static/js/widget.js?[% h.mtime_static.js %]' type='text/javascript'%3E%3C/script%3E"));
+						</script>
+						<script type="text/javascript" charset="utf-8">
+							var copinyWidgetOptions = {
+							position: '[% h.config_site.copiny_position %]',
+							hostcommunity:'[% h.config_site.copiny_host %]',
+							newwindow: '0',
+							type: 'question',
+							color: '[% h.config_site.copiny_color %]',
+							border: '[% h.config_site.copiny_border %]',
+							round: '1',
+							title: "[% h.config_site.copiny_title %]",
+							cache: "[% h.config_site.copiny_cache %]",
+							community:[% h.config_site.copiny_community %]
+							};
+							initCopinyWidget(copinyWidgetOptions);
+							CopinyWidget.showTab();
+						</script>
+					[% END %]
+				</div>
+			</div>
+		</div>
+</body>
+</html>

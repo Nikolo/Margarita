@@ -57,6 +57,7 @@ has recheck_pages => sub {
 			$max_t->{$ftype} = (stat( $path_to_public.$ftype.'/'.$files))[9] if $max_t->{$ftype} < (stat( $path_to_public.$ftype.'/'.$files))[9];
 		}
 	}
+<<<<<<< HEAD
 	my $ret = {};
 	foreach ($self->schema->resultset('Page')->search(undef, {order_by => "controller"})->all()){
 		next if -f $path_to_template.'/'.$_->controller.'/'.$_->action.'.html.tt';
@@ -146,6 +147,7 @@ sub startup {
 	$self->plugin(tt_renderer => { template_options => $self->tt_param() });
 	$self->renderer->default_handler('tt');
 	$self->mode( $self->config->{app_mode}||'production' );
+	$self->helper( lib_plugins_dir => sub { $path_to_template.'/../lib/Plugins/WebApp/' });
 	$self->recheck_pages();
 	$self->sessions->default_expiration( 60 * 60 * 24 * 3 );
 	$self->helper( word_ending => sub {
@@ -245,11 +247,85 @@ sub startup {
 				} 
 			)->all];
 	});
+	$self->helper( reload_app => sub {
+		my $self = shift;
+		system('kill -USR2 `cat '.$path_to_template.'/../script/hypnotoad.pid`');
+	});
 	$self->hook(after_static_dispatch => sub {
 		my $tx = shift;
 		$tx->res->headers->remove('Set-Cookie');
 	});
-	$self->defaults(layout => 'user_default');
+	$self->defaults(layout => $self->config->{layout});
+	my $dirs_main = IO::Dir->new( $path_to_template );
+
+	$dirs_main = IO::Dir->new( $path_to_template.'/../lib/Plugins/WebApp/' );
+	foreach my $pms ( grep { $_ =~ /Helper\.pm$/ && -f $path_to_template.'/../lib/Plugins/WebApp/'.$_ } $dirs_main->read()){
+		my $module = 'WebApp::'.$pms;
+		$module =~ s/\.pm$//;
+		eval "use $module";
+		die $@ if $@;
+		my $sub = $module->can('_startup_begin');
+		$sub->( $module, $self ) if $sub;
+	}
+
+	my $ret = {};
+	foreach ($self->schema->resultset('Page')->search(undef, {order_by => "controller"})->all()){
+		next if -f $path_to_template.'/'.$_->controller.'/'.$_->action.'.html.tt';
+		$ret->{$_->controller}->{$_->action} = 1;
+	}
+	if( $dirs_main ){
+		foreach my $dir_main ( grep {$_ !~ /^\./ && -d $path_to_template.$_ } $dirs_main->read() ){
+			my $files = IO::Dir->new( $path_to_template.'/'.$dir_main );
+			foreach ( grep { -f $path_to_template.'/'.$dir_main.'/'.$_ } $files->read()){
+				s/\..*?\..*?$//;
+				next unless $_;
+				next if $dir_main =~ /layouts|\.mail/;
+				$self->app->schema->resultset('Page')->new({controller => $dir_main, action => $_})->insert() unless $self->app->schema->resultset('Page')->find({controller => $dir_main, action => $_});
+				delete $ret->{$dir_main}->{$_};
+			}
+		}
+	}
+	foreach my $paths (qw{/../lib/WebApp/ /../lib/Plugins/WebApp/}){
+		$dirs_main = IO::Dir->new( $path_to_template.$paths );
+		foreach my $pms ( grep { $_ =~ /\.pm$/ && -f $path_to_template.$paths.$_ } $dirs_main->read()){
+			my $FH;
+			open( $FH, "<", $path_to_template.$paths.$pms);
+			$pms = lc($pms);
+			$pms =~ s/\.pm$//;
+			next if $pms =~ /layouts|\.mail/;
+			my $need_list = 0;
+			my $pkg_name;
+			while( <$FH> ){
+				$pkg_name = lc($1) if /^package\s+WebApp::(.*);$/;
+				$need_list = 1 if /^use base.*WebApp::Controller/;
+				next if !$need_list || !$pkg_name;
+				if( $need_list && /^sub\s+([^_].*?)(?:\s*{|$)/ ){
+					my $action = $1;
+					$self->app->schema->resultset('Page')->new({controller => $pkg_name, action => $action})->insert() unless $self->app->schema-> resultset('Page')->find({controller => $pkg_name, action => $1});
+				    delete $ret->{$pkg_name}->{$action};
+			    }
+			}
+			close( $FH );
+		}
+	}
+	foreach my $coll (keys %$ret){
+		foreach my $act (%{$ret->{$coll}}){
+			foreach ($self->app->schema->resultset('Page')->search( {controller => $coll, action => $act||''} )->all()){
+				$_->acls->delete();
+				$_->menus->delete();
+				$_->delete();
+			}
+		}
+	}
+	$dirs_main = IO::Dir->new( $path_to_template.'/../lib/Plugins/WebApp/' );
+	foreach my $pms ( grep { $_ =~ /Helper\.pm$/ && -f $path_to_template.'/../lib/Plugins/WebApp/'.$_ } $dirs_main->read()){
+		my $module = 'WebApp::'.$pms;
+		$module =~ s/\.pm$//;
+		eval "use $module";
+		die $@ if $@;
+		my $sub = $module->can('_startup_end');
+		$sub->( $module, $self ) if $sub;
+	}
 
 	# Router
 	my $r = $self->routes;
